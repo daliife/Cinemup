@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Cinema TV App      "/>
+	<meta name="author" content="Alex Cordon and David Gimeno">
+    <title>CinemaUp</title>
+	
+	<!-- Favicon reference -->
+	<link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
+	<!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Slick CSS (carousel effect)-->
+    <link rel="stylesheet" type="text/css" href="css/slick.css"/> 
+    <!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" href="css/personalized.css"/> 
+    <!-- Main JavaScript -->
+    <script src="js/main.js"></script>
+</head>
+
+<body>
+	<header><hgroup><h1>CinemUp</h1></hgroup></header>
+  <div class="container-fluid menu-panel">        
+        <div class="row fixed-padding">
+            <div class="col-sm-3"> 
+            </div>
+            <div class="col-sm-6 text-center">
+                <h1 class="white-text display-4">FILM RECOMMENDER</h1> 
+            </div>
+            <div class="col-sm-3"> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="test">
+              <div ><img class="focus active" src="images/starwars.jpeg"></div>
+              <div ><img class="focus"src="images/starwars.jpeg"></div>
+              <div ><img class="focus"src="images/starwars.jpeg"></div>
+              <div ><img class="focus"src="images/starwars.jpeg"></div>
+              <div ><img class="focus"src="images/starwars.jpeg"></div>
+              <div ><img class="focus"src="images/starwars.jpeg"></div>
+              <div ><img class="focus"src="images/starwars.jpeg"></div>
+              <div ><img class="focus"src="images/starwars.jpeg"></div>
+              <div ><img class="focus"src="images/starwars.jpeg"></div>
+            </div> 
+        </div> 
+        <div class="row">
+            <div class="col-sm-3 bottom">
+                <h1 class="white-text display-3 time"></h1> 
+                <h4 class="white-text display-5 date"></h4> 
+            </div>
+            <div class="col-sm-6 text-center topper">
+                <h1 class="white-text display-4 title-name">Shooter</h1> 
+                <h4 class="yellow-text "><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> 7.2</span>
+                </h4>
+            </div>
+            <div class="col-sm-3">
+            </div>
+        </div>          
+    </div>
+
+    <div class="container-fluid info-panel">
+    </div>
+
+	<script id="top-template" type="text/x-handlebars-template">
+		{{#each results}}
+			<div class="square">
+				<img src="images/starwars.jpeg" class="thumbnail">
+			   <div class="content">
+			   		<div class="infofilm">
+		                <h2 class="display-5 white-text">{{vote_average}} | {{original_title}}</h2>
+		                <h5><span class="tag tag-default">Drama, Thriller</span></h5>
+		        	</div>
+			    </div>
+			</div>
+		{{/each}}
+	</script>
+    <script id="info-template" type="text/x-handlebars-template">
+        <div id="hello">
+            <div id="contents">
+               <img src="{{Poster}}" class="thumbnail-info">
+            </div>
+            <div id="gradient">
+            </div>
+        </div>    
+        <div class="offset-sm-4 col-sm-8 add-padding-top information-film">
+            <div class="clearfix">
+                <h1 class="display-2 white-text add-padding-basic float-xs-left">{{Title}}</h1>
+                <h3 class="add-padding-basic float-xs-right yellow-text bottom-placed"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> {{imdbRating}}</span>
+                </h3>
+            </div>
+            <div class="clearfix">
+                <h3 class="add-padding-basic float-xs-left"><span class="tag tag-pill tag-info black-text">{{Genre}}</span></h3>
+                <h3 class="float-xs-right white-text">{{imdbVotes}} votes</h3>
+            </div>
+            <h3 class="white-text border-down">Plot</h3>
+            <p id="hello" class="white-text plot add-padding-basic">{{Plot}}</p>
+            <h3 class="white-text border-down">Information</h3>
+            <div class="col-sm-5">
+                <table class="table table-responsive white-text add-padding-basic">
+                    <tbody>
+                        <tr>
+                            <td>Year</td>
+                            <td>{{Year}}</td>
+                        </tr>
+                        <tr>
+                            <td>Release date</td>
+                            <td>{{Released}}</td>
+                        </tr>
+                        <tr>
+                            <td>Runtime</td>
+                            <td>{{Runtime}}</td>
+                        </tr>
+                        <tr>
+                            <td>Director</td>
+                            <td>{{Director}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-7">
+                <table class="table table-responsive white-text add-padding-basic">
+                    <tbody>
+                        <tr>
+                            <td>Writer</td>
+                            <td>{{Writer}}</td>
+                        </tr>
+                        <tr>
+                            <td>Actors</td>
+                            <td>{{Actors}}</td>
+                        </tr>
+                        <tr>
+                            <td>Language</td>
+                            <td>{{Language}}</td>
+                        </tr>
+                        <tr>
+                            <td>Awards</td>
+                            <td>{{Awards}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-12 ">
+                <div class="col-xs-6">
+                    <button type="button" class="btn btn-outline-success btn-lg btn-block add-padding-basic2">Play Trailer</button>
+                </div>
+                <div class="col-xs-6">
+                    <button type="button" class="btn btn-outline-danger btn-lg btn-block add-padding-basic2">Close window</button>
+                </div>
+            </div>
+        </div>
+    </script>
+  
+
+
+ 
+ <script id="info-template" type="text/x-handlebars-template">
+        <img src="{{Poster}}" class="thumbnail-info">
+        <div class="offset-sm-4 col-sm-8 add-padding-top">
+            <div class="clearfix">
+                <h1 class="display-2 white-text add-padding-basic float-xs-left">{{Title}}</h1>
+                <h3 class="add-padding-basic float-xs-right yellow-text bottom-placed"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> {{imdbRating}}</span>
+                </h3>
+            </div>
+            <div class="clearfix">
+                <h3 class="add-padding-basic float-xs-left"><span class="tag tag-pill tag-info black-text">{{Genre}}</span></h3>
+                <h3 class="float-xs-right white-text">{{imdbVotes}} votes</h3>
+            </div>
+            <h3 class="white-text border-down">Plot</h3>
+            <p id="hello" class="white-text plot add-padding-basic">{{Plot}}</p>
+            <h3 class="white-text border-down">Information</h3>
+            <div class="col-sm-5">
+                <table class="table table-responsive white-text add-padding-basic">
+                    <tbody>
+                        <tr>
+                            <td>Year</td>
+                            <td>{{Year}}</td>
+                        </tr>
+                        <tr>
+                            <td>Release date</td>
+                            <td>{{Released}}</td>
+                        </tr>
+                        <tr>
+                            <td>Runtime</td>
+                            <td>{{Runtime}}</td>
+                        </tr>
+                        <tr>
+                            <td>Director</td>
+                            <td>{{Director}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-7">
+                <table class="table table-responsive white-text add-padding-basic">
+                    <tbody>
+                        <tr>
+                            <td>Writer</td>
+                            <td>{{Writer}}</td>
+                        </tr>
+                        <tr>
+                            <td>Actors</td>
+                            <td>{{Actors}}</td>
+                        </tr>
+                        <tr>
+                            <td>Language</td>
+                            <td>{{Language}}</td>
+                        </tr>
+                        <tr>
+                            <td>Awards</td>
+                            <td>{{Awards}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-12 ">
+                <div class="col-xs-6">
+                    <button type="button" class="btn btn-outline-success btn-lg btn-block add-padding-basic2">Play Trailer</button>
+                </div>
+                <div class="col-xs-6">
+                    <button type="button" class="btn btn-outline-danger btn-lg btn-block add-padding-basic2">Close window</button>
+                </div>
+            </div>
+        </div>
+    </script>
+  <footer>
+    <p>&copy; 2016 Life Innovation. All rights reserved.</p>
+  </footer>  
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/handlebars-v4.0.5.js"></script>
+    <script type="text/javascript" src="js/slick.js"></script>
+    <script src="js/functionalities.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://yourdomain/Test1" version="1.0.0" height="1080" width="1920" viewmodes="maximized">
+    <tizen:application id="Hfb1ZxzDwT.Test1" package="Hfb1ZxzDwT" required_version="2.3"/>
+    <author email="alexcordonvila@gmail.com">Alex</author>
+    <content src="index.html"/>
+    <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
+    <icon src="clapperboard.png"/>
+    <name>Test1</name>
+    <tizen:profile name="tv-samsung-public"/>
+    <tizen:setting screen-orientation="landscape" context-menu="enable" background-support="disable" encryption="disable" install-location="auto" hwkey-event="enable"/>
+</widget>
