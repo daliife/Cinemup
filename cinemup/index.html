@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Tizen TV Recommendation APP"/>
+    <meta name="author" content="Alex Cordon and David Gimeno"/>
+
+    <title>CINEMUP</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Icons from font awesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <!-- Slick CSS (carousel effect) -->
+    <link rel="stylesheet" type="text/css" href="css/slick.css"/>
+    <!-- Personailzed CSS -->
+    <link href="css/personalized.css" rel="stylesheet">
+    
+</head>
+
+<body>
+
+	<div class="container-fluid selector-panel">
+        <div><img src="" class="background-image"></div>
+        <div class="row fixed-padding">
+            <div class="col-sm-4 text-center">
+                <h1 class="white-text display-3">CINEM <i class="fa fa-film" aria-hidden="true"></i> APP</h1> 
+            </div>
+             <div class="col-sm-8 text-center"></div>
+        </div>
+        <div class="row">
+            <div class="options">
+            	<div focusable data-focusable-initial-focus="true" data-petitiontype="upcoming" class="col-sm-4 option-panel">
+            		<img src="horizontal.jpg" class="option-image" />
+                	<h1 class="white-text display-5 option-type"><i class="fa fa-compass" aria-hidden="true"></i> UPCOMING</h1> 
+            	</div>
+            	<div focusable data-petitiontype="top_rated" class="col-sm-4 option-panel">
+            		<img src="horizontal.jpg" class="option-image" />
+                	<h1 class="white-text display-5 option-type"><i class="fa fa-star" aria-hidden="true"></i> TOP RATED</h1> 
+            	</div>
+            	<div focusable data-petitiontype="popular" class="col-sm-4 option-panel">
+            		<img src="horizontal.jpg" class="option-image" />
+                	<h1 class="white-text display-5 option-type"><i class="fa fa-fire" aria-hidden="true"></i> POPULAR</h1> 
+            	</div>
+            	<div focusable data-petitiontype="now_playing" class="col-sm-4 option-panel">
+            		<img src="horizontal.jpg" class="option-image" />
+                	<h1 class="white-text display-5 option-type"><i class="fa fa-play-circle-o" aria-hidden="true"></i> NOW PLAYING</h1> 
+            	</div>
+            	<div focusable data-petitiontype="latest" class="col-sm-4 option-panel">
+            		<img src="horizontal.jpg" class="option-image" />
+                	<h1 class="white-text display-5 option-type"><i class="fa fa-clock-o" aria-hidden="true"></i> LATEST MOVIES</h1> 
+            	</div>  
+            	<div focusable data-petitiontype="popular" class="col-sm-4 option-panel">
+            		<img src="horizontal.jpg" class="option-image" />
+                	<h1 class="white-text display-5 option-type"><i class="fa fa-film" aria-hidden="true"></i> UPCOMING FILMS</h1> 
+            	</div>            	            	            	            	
+         	          	            	            	
+            </div> 
+        </div> 	
+	</div>
+
+    <div class="container-fluid menu-panel">        
+        <div><img src="" class="background-photo"></div>
+        <div class="row fixed-padding">
+            <div class="col-sm-4 text-center">
+                <h1 class="white-text display-3">CINEM <i class="fa fa-film" aria-hidden="true"></i> APP</h1> 
+            </div>
+			<div class="col-sm-8 text-right">
+                <h1 id="petition-type" class="white-text display-3"></h1> 
+            </div>                        
+        </div>
+        <div id="creation-list" class="row">
+        </div> 
+        <div class="row">
+            <div class="col-sm-3 bottom">
+                <h1 class="white-text display-3 time"></h1> 
+                <h4 class="white-text display-5 date"></h4> 
+            </div>
+            <div class="col-sm-6 text-center topper">
+                <h1 class="white-text display-4 title-name"></h1> 
+                <h3 class="yellow-text title-rating"></h3>
+            </div>
+            <div class="col-sm-3">
+            </div>
+        </div>          
+    </div>
+
+    <div class="container-fluid info-panel">
+    </div>
+
+    <!-- Menu template -->
+	<script id="menu-template" type="text/x-handlebars-template">
+		{{#each results}}
+			<div >
+				<img class="focus" 
+					data-title="{{original_title}}" 
+					data-id="{{id}}"
+					data-release="{{release_date}}" 
+					data-overview="{{overview}}"
+					data-vote="{{vote_average}}" 
+					data-popularity="{{popularity}}"
+					data-backgroundimage="https://image.tmdb.org/t/p/w500{{backdrop_path}}" 
+					src="https://image.tmdb.org/t/p/w300{{poster_path}}">
+			</div>
+		{{/each}}
+	</script>
+
+	<!-- Description template -->
+    <script id="info-template" type="text/x-handlebars-template">
+        <div id="image-panel">
+            <div id="contents put-back">
+               <img src="https://image.tmdb.org/t/p/w300{{poster_path}}" class="poster-image">
+            </div>
+            <div id="gradient">
+            </div>
+        </div>    
+        <div class="add-padding-top information-film">
+            <div class="clearfix put-front">
+                <h1 class="display-3 white-text add-padding-basic float-xs-left film-title">{{original_title}}</h1>
+                <h3 class="add-padding-basic float-xs-right yellow-text bottom-placed"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> {{vote_average}}</span>
+                </h3>
+            </div>
+            <div class="clearfix put-front">
+                <h3 class="add-padding-basic float-xs-left">{{#each genres}}<span class="tag tag-pill tag-success black-text">
+                	{{name}}</span> {{/each}}</h3>
+                <h3 class="float-xs-right white-text">{{vote_count}} votes</h3>
+            </div>
+            <div class="col-sm-12 clearfix put-front">
+	            <h3 class="white-text display-5">Plot</h3>
+	            <p id="plot-info" class="white-text plot add-padding-basic">{{overview}}</p>
+	        </div>
+            <div class="col-sm-12 clearfix put-front">
+	            <h3 class="white-text display-5">Information</h3>
+	            <div class="col-sm-6">
+	                <table class="table table-responsive white-text add-padding-basic">
+	                    <tbody>
+	                        <tr>
+	                            <td class="less-opacity">Title</td>
+	                            <td>{{#if title}} {{title}} {{else}} Not avaiable{{/if}}</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="less-opacity">Release date</td>
+	                            <td>{{#if release_date}} {{release_date}} {{else}} Not avaiable{{/if}}</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="less-opacity">Runtime</td>
+	                            <td>{{#if runtime}} {{runtime}} minutes{{else}} Not avaiable{{/if}}</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="less-opacity">Language</td>
+	                            <td>{{#if original_language}} {{original_language}}{{else}} Not avaiable{{/if}}</td>
+	                        </tr>
+	                    </tbody>
+	                </table>
+	            </div>
+	            <div class="col-sm-6">
+	                <table class="table table-responsive white-text add-padding-basic">
+	                    <tbody>
+	                        <tr>
+	                            <td class="less-opacity">Homepage</td>
+	                            <td>{{#if homepage}} {{homepage}}{{else}} Not avaiable{{/if}}</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="less-opacity">Status</td>
+	                            <td>{{#if status}} {{status}} {{else}} Not avaiable{{/if}}</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="less-opacity">Budget / Revenues</td>
+	                            <td>
+	                            {{#if budget}} {{budget}}$ {{else}} Not avaiable{{/if}}/
+	                            {{#if revenue}} {{revenue}}$ {{else}} Not avaiable{{/if}}
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td class="less-opacity">Popularity</td>
+	                            <td>{{#if popularity}} {{popularity}}%{{else}} Not avaiable{{/if}}</td>
+	                        </tr>
+	                    </tbody>
+	                </table>
+	            </div>   
+            </div>
+             <div class="col-xs-12 put-front">
+                <div class="col-xs-6">
+                    <button type="button" class="btn btn-outline-success btn-lg btn-block add-padding-basic2">Play Trailer</button>
+                </div>
+                <div class="col-xs-6">
+                    <button type="button" class="btn btn-outline-danger btn-lg btn-block add-padding-basic2">Close window</button>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Script imports -->
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="js/handlebars-v4.0.5.js"></script>
+    <script type="text/javascript" src="js/slick.min.js"></script>
+    <script type="text/javascript" src="js/caph-jquery.min.js"></script>
+    <script type="text/javascript" src="js/functionalities.js"></script>
+
+</body>
+
+</html>
