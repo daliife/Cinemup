@@ -19,6 +19,10 @@ body{
 }
 
 .add-padding-top{
+	padding-top: 5em;
+}
+
+.add-padding-top-2{
 	padding-top: 2em;
 }
 
@@ -87,7 +91,15 @@ body{
 }
 
 .topper{
+	padding-top: 2em;
+}
+
+.topper-2{
 	padding-top: 1em;
+}
+
+.title-name,.title-rating{
+	padding-right: 1em;
 }
 
 #gradient {
@@ -96,7 +108,7 @@ body{
     left: 0%;
     bottom: 0%;
     top: 0%;
-    width:40em;
+    width:46em;
     background: none;
     background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,1) 90%);
     background: -webkit-gradient(linear, left left, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(90%,rgba(0,0,0,1)));
@@ -107,8 +119,9 @@ body{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 );
 }
 
-#contents {
+.contents {
     background:black;
+    position:relative;
 }
 
 .background-photo{
@@ -194,3 +207,18 @@ body{
 	text-align: right;
 }
 
+.time-panel{
+	position:relative;
+	z-index:5;
+}
+
+.date{
+	position:absolute;
+	top: 3.5em;
+	left:60px;	
+}
+
+.time{
+	position:absolute;
+	left: 60px;
+}

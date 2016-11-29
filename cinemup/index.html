@@ -54,8 +54,7 @@
             	<div focusable data-petitiontype="popular" class="col-sm-4 option-panel">
             		<img src="horizontal.jpg" class="option-image" />
                 	<h1 class="white-text display-5 option-type"><i class="fa fa-film" aria-hidden="true"></i> UPCOMING FILMS</h1> 
-            	</div>            	            	            	            	
-         	          	            	            	
+            	</div>            	            	            	            	     	            	            	
             </div> 
         </div> 	
 	</div>
@@ -66,28 +65,28 @@
             <div class="col-sm-4 text-center">
                 <h1 class="white-text display-3">CINEM <i class="fa fa-film" aria-hidden="true"></i> APP</h1> 
             </div>
-			<div class="col-sm-8 text-right">
+            <div class="col-sm-4 text-right"></div>
+			<div class="col-sm-4 text-center">
                 <h1 id="petition-type" class="white-text display-3"></h1> 
             </div>                        
         </div>
         <div id="creation-list" class="row">
-        </div> 
-        <div class="row">
-            <div class="col-sm-3 bottom">
-                <h1 class="white-text display-3 time"></h1> 
-                <h4 class="white-text display-5 date"></h4> 
-            </div>
-            <div class="col-sm-6 text-center topper">
+        </div>
+     	<div class="row">
+            <div class="col-sm-12 text-center topper">
                 <h1 class="white-text display-4 title-name"></h1> 
-                <h3 class="yellow-text title-rating"></h3>
+                <h3 class="yellow-text title-rating topper-2"></h3>
             </div>
-            <div class="col-sm-3">
-            </div>
-        </div>          
+        </div>           
     </div>
 
     <div class="container-fluid info-panel">
     </div>
+
+	<div class="time-panel">
+	    <h1 class="white-text display-3 time"></h1> 
+	    <h4 class="white-text display-5 date"></h4> 
+	</div>
 
     <!-- Menu template -->
 	<script id="menu-template" type="text/x-handlebars-template">
@@ -108,10 +107,8 @@
 
 	<!-- Description template -->
     <script id="info-template" type="text/x-handlebars-template">
-        <div id="image-panel">
-            <div id="contents put-back">
-               <img src="https://image.tmdb.org/t/p/w300{{poster_path}}" class="poster-image">
-            </div>
+        <div id="image-panel contents">
+            <img src="https://image.tmdb.org/t/p/w300{{poster_path}}" class="poster-image">
             <div id="gradient">
             </div>
         </div>    
@@ -126,11 +123,11 @@
                 	{{name}}</span> {{/each}}</h3>
                 <h3 class="float-xs-right white-text">{{vote_count}} votes</h3>
             </div>
-            <div class="col-sm-12 clearfix put-front">
+            <div class="col-sm-12 clearfix put-front add-padding-top-2">
 	            <h3 class="white-text display-5">Plot</h3>
 	            <p id="plot-info" class="white-text plot add-padding-basic">{{overview}}</p>
 	        </div>
-            <div class="col-sm-12 clearfix put-front">
+            <div class="col-sm-12 clearfix put-front add-padding-top-2">
 	            <h3 class="white-text display-5">Information</h3>
 	            <div class="col-sm-6">
 	                <table class="table table-responsive white-text add-padding-basic">
@@ -180,7 +177,7 @@
 	                </table>
 	            </div>   
             </div>
-             <div class="col-xs-12 put-front">
+             <div class="col-xs-12 put-front add-padding-top-2">
                 <div class="col-xs-6">
                     <button type="button" class="btn btn-outline-success btn-lg btn-block add-padding-basic2">Play Trailer</button>
                 </div>
@@ -197,6 +194,7 @@
     <script type="text/javascript" src="js/slick.min.js"></script>
     <script type="text/javascript" src="js/caph-jquery.min.js"></script>
     <script type="text/javascript" src="js/functionalities.js"></script>
+    <script type="text/javascript" src="js/TVKeyValue.js"></script>
 
 </body>
 

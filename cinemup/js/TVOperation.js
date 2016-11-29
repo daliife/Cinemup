@@ -1,4 +1,4 @@
-var last_focus_index = 0;
+/*var last_focus_index = 0;
 var mainfocus = 0;
 var item_count = 0;
 var button_count = 3;
@@ -69,6 +69,6 @@ $(document).ready(function(){
 	 $(".ui-controlgroup-controls").attr("style", "width:50%");
 });
 
-//ui-btn-active km_focusable
+//ui-btn-active km_focusable*/
 
 

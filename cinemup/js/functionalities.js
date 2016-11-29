@@ -1,9 +1,3 @@
-/*
-https://www.behance.net/gallery/20331189/Tivibu
-https://www.behance.net/gallery/43161663/Mapping-Go-
-https://www.behance.net/gallery/44941465/025-Smart-TV-App
-*/
-
 var JSONresponse;
 var showingDescription = false;
 var showingFilms = false;
@@ -81,9 +75,6 @@ function getJSONDescription(json){
 	var template = Handlebars.compile(source);
 	var renderedTemplate = template(JSONresponse);
 	$(".info-panel").html(renderedTemplate);
-
-	//Modfy gradient to fit image
-	$('.gradient').width($('.background-photo').width());
 	console.log("...FINISHED HTTP MOVIE DESCRIPTION");
 
 }
@@ -99,12 +90,14 @@ function changeWindow(option){
 		break;
 		case 2:
 			$(".menu-panel").fadeOut(FADE_TIME);
+			$(".time-panel").fadeOut(FADE_TIME);
 			$(".info-panel").fadeIn(FADE_TIME);
 			showingDescription = true;
 			showingFilms = false;
 		break;
 		case 3:
 			$(".info-panel").fadeOut(FADE_TIME);
+			$(".time-panel").fadeIn(FADE_TIME);
 			$(".menu-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
 			showingFilms = true;	
@@ -196,13 +189,17 @@ window.onload = function() {
     	
     	var e = e || e.keyCode;
 
+    	if(e.keyCode == TvKeyCode.KEY_BACK){
+    		console.log("HELOOOOO");
+    	}
+    	
     	if (e.keyCode == '13') {
     		console.log("info - key ENTER pressed");
     		if(showingFilms){
     			changeWindow(2);
     		}
     	}
-    	if (e.keyCode == '27') { 
+    	if (e.keyCode == TvKeyCode.KEY_INFO) { 
     		console.log("info - key ESC pressed");
     		if (showingFilms) { changeWindow(4)};
     		if (showingDescription) { changeWindow(3)};
