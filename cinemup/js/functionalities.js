@@ -6,45 +6,60 @@ var FADE_TIME = 1000;
 var API_KEY = "e23c818ec74b3447e740a6d758f88ddc";
 var UPDATE_TIME_CLOCK = 60000;
 var petition_parameter = "popular";
+var isPlayingTrailer = false;
 
 window.onload = function() {
 
 	updateClock();
 	setInterval(updateClock, UPDATE_TIME_CLOCK);
 
-	$(".menu-panel").hide()	//Amaguèm el carrousel de pelicules i el panell d'informació per mostrar la galeria inicial
+	$(".menu-panel").hide()	//Amaguem el carrousel de pelicules i el panell d'informació per mostrar la galeria inicial
 	$(".info-panel").hide()
-
+	$(".trailer-panel").hide();
+	
 	if(!showingFilms && !showingDescription){
-		$('.options').children().css( 'border', '1px solid black'); 
-		$('.options').children().first().css( 'border', '1px solid white');     //Fem focus al primer element al iniciar l'aplicació
 		$.caph.focus.activate(function(nearestFocusableFinderProvider, controllerProvider) {
 	        controllerProvider.onFocused(function(event, originalEvent) {
-	        	$(event.currentTarget).css( 'border', '1px solid white');
-	        	
-	        });
+	        	$(event.currentTarget).children('.option-image').css('opacity', '1');
+	        	$(event.currentTarget).children('.option-type').css('opacity', '1');
+	        	$(event.currentTarget).children('.option-image')
+	        	.css({
+	        	   'filter'         : 'blur(0px)',
+	        	   '-webkit-filter' : 'blur(0px)',
+	        	   '-moz-filter'    : 'blur(0px)',
+	        	   '-o-filter'      : 'blur(0px)',
+	        	   '-ms-filter'     : 'blur(0px)'
+	        	});
+	        });	        
 	        controllerProvider.onBlurred(function(event, originalEvent) {
-	        	$(event.currentTarget).css( 'border', '1px solid transparent');
-	        });
+	        	$(event.currentTarget).children('.option-image').css('opacity', '0.4');
+	        	$(event.currentTarget).children('.option-type').css('opacity', '0.8');
+	        	$(event.currentTarget).children('.option-image')
+	        	.css({
+	        	   'filter'         : 'blur(5px)',
+	        	   '-webkit-filter' : 'blur(5px)',
+	        	   '-moz-filter'    : 'blur(5px)',
+	        	   '-o-filter'      : 'blur(5px)',
+	        	   '-ms-filter'     : 'blur(5px)'
+	        	});
+	        });	        
 	        controllerProvider.onSelected(function(event, originalEvent){
 	        	var petition = $(event.currentTarget).attr('data-petitiontype');
 	 	 		var fill_info = $(event.currentTarget).children("h1").html();
 	 	 		$('#petition-type').html(fill_info);
 	 	 		console.log("STARTING HTTP MOVIE MENU...");
-	 	 		getHttpRequestMenu("https://api.themoviedb.org/3/movie/" + petition + "?api_key=" + API_KEY + "&language=" +LANGUAGE_RESPONSE, getJSONDescription);
-				
+	 	 		getHttpRequestMenu("https://api.themoviedb.org/3/movie/" + petition + "?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE, getJSONDescription);				
 			});
 	    });
 	}
 	 
 	keyController(); //Escoltem els events de teclats
 
-	
 };
 
-
 function keyController(){
-document.addEventListener('keydown', function (e) {
+	
+	document.addEventListener('keydown', function (e) {
     	
     	var e = e || e.keyCode;
 
@@ -57,16 +72,32 @@ document.addEventListener('keydown', function (e) {
     		if(showingFilms){
     			changeWindow(2);
     		}
-    		if(ShowingDescription){
-    			
-    			
-    		}
+
     	}
+    	
     	if (e.keyCode == TvKeyCode.KEY_INFO) { 
     		console.log("info - key ESC pressed");
-    		if (showingFilms) { changeWindow(4)};
-    		if (showingDescription) { changeWindow(3)};
-    	}    	
+    		if (showingFilms) { changeWindow(4); }
+    		if (showingDescription) { changeWindow(3); }
+    		if(isPlayingTrailer) { changeWindow(6); document.getElementById('trailer').pause();}
+    	}
+    	
+    	if (e.keyCode == TvKeyCode.KEY_PAUSE) { 
+    		console.log("info - key PAUSE pressed");
+    		if(isPlayingTrailer) document.getElementById('trailer').pause(); isPlayingTrailer = false;
+
+    	} 
+    	
+    	if (e.keyCode == TvKeyCode.KEY_PLAY) { 
+    		console.log("info - key PLAY pressed");
+    		if(showingDescription){
+    			changeWindow(5);
+    			document.getElementById('trailer').play();
+    			isPlayingTrailer = true;
+    		}
+
+    	} 
+    	
     	if (e.keyCode == '37') { 
     		console.log("info - key LEFT pressed");
     		if(showingFilms){
@@ -74,9 +105,11 @@ document.addEventListener('keydown', function (e) {
 				updateFocus();
     		}
     	}
+    	
     	if (e.keyCode == '38') { 
     		console.log("info - key UP pressed");	
     	}
+    	
     	if (e.keyCode == '39') { 
     		console.log("info - key RIGHT pressed");
     		if(showingFilms){
@@ -84,13 +117,15 @@ document.addEventListener('keydown', function (e) {
 	    		updateFocus();	
     		}
     	}
+    	
     	if (e.keyCode == '40') { 
     		console.log("info - key DOWN pressed");
-    	}    	    	    	
+    	}    
+    	
 	});
-	
-	
+		
 }
+
 function changeWindow(option){
 	
 	switch(option){
@@ -113,7 +148,6 @@ function changeWindow(option){
 			$(".menu-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
 			showingFilms = true;	
-			
 		break;
 		case 4:
 			$('.film-list').slick('unslick');	
@@ -123,10 +157,26 @@ function changeWindow(option){
 			$(".selector-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
 			showingFilms = false;
-		break;		
+		break;	
+		case 5:
+
+			$(".info-panel").fadeOut(FADE_TIME);
+			$(".trailer-panel").fadeIn(FADE_TIME);
+			showingDescription = false;
+			showingFilms = false;
+		break;	
+		case 6:
+
+			$(".trailer-panel").fadeOut(FADE_TIME);
+			$(".info-panel").fadeIn(FADE_TIME);
+			showingDescription = true;
+			showingFilms = false;
+			isPlayingTrailer = false;
+		break;	
 	}
 
 }
+
 function updateFocus(){
 	
 	//Change focus class
@@ -151,13 +201,10 @@ function updateFocus(){
 	//Fill info about focus film
 	console.log("STARTING HTTP MOVIE DESCRIPTION...");
 	var id = $(".active").attr('data-id');
-	getHttpRequestDescription("https://api.themoviedb.org/3/movie/" + id + "?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE, getJSONMenu);
-//	$.caph.focus.init(function(nearestFocusableFinderProvider, controllerProvider) {
-//		controllerProvider.onFocused(function(event, originalEvent) {
-//        	$(event.btn).css( 'border', '1px solid white');
-//		});
-//    });
+	getHttpRequestDescription("https://api.themoviedb.org/3/movie/" + id + "?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE + "&append_to_response=videos", getJSONMenu);
+
 }
+
 function getHttpRequestMenu(theUrl, callback) {
 
     var xmlHttp = new XMLHttpRequest();
@@ -174,8 +221,6 @@ function getHttpRequestMenu(theUrl, callback) {
 
 function getJSONMenu(json){
 	
-	console.log("...FINISHED HTTP MENU");
-
 	//Deletion and creation of new div to reset slick trash
 	$('#creation-list').empty();
 	var iDiv = document.createElement('div');
@@ -185,7 +230,8 @@ function getJSONMenu(json){
 	//Parse response to JSON format
 	JSONresponse = JSON.parse(json);
 	console.log(JSONresponse);
-
+	console.log("...FINISHED HTTP MENU");
+	
 	//Complie Handlebars and add to the html
 	var source   = $("#menu-template").html();
 	var template = Handlebars.compile(source);
@@ -195,7 +241,7 @@ function getJSONMenu(json){
 	$(".focus").first().addClass("active");
 	
 	//Refresh text to match info
-	changeWindow(1); //Passèm de finestra 1 a 2
+	changeWindow(1);
 	initializeSlick();
 	updateFocus();
 	
@@ -220,15 +266,20 @@ function getJSONDescription(json){
 	//Parse response to JSON format
 	JSONresponse = JSON.parse(json);
 	console.log(JSONresponse);
+	console.log("...FINISHED HTTP MOVIE DESCRIPTION");
 
 	//Render description template
 	var source   = $("#info-template").html();
 	var template = Handlebars.compile(source);
 	var renderedTemplate = template(JSONresponse);
 	$(".info-panel").html(renderedTemplate);
-	console.log("...FINISHED HTTP MOVIE DESCRIPTION");
-
+	
+	//Fill the url link on the video tag
+	var vid = document.getElementById("trailer");
+	vid.src = "https://www.youtube.com/watch?v=" + JSONresponse.videos.results[0].key;
+	
 }
+
 function updateClock(){
 	
 	var date = new Date()
@@ -242,8 +293,6 @@ function updateClock(){
 	$(".date").html(newDate);
 
 }
-
-
 
 function initializeSlick(){	
 
