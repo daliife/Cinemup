@@ -1,12 +1,18 @@
-var JSONresponse;
-var showingDescription = false;
-var showingFilms = false;
+
+//Constant parameters
 var LANGUAGE_RESPONSE = "en-US";
 var FADE_TIME = 1000;
 var API_KEY = "e23c818ec74b3447e740a6d758f88ddc";
 var UPDATE_TIME_CLOCK = 60000;
-var petition_parameter = "popular";
+var PETITION_PARAMETER = "popular";
+
+var JSONresponse;
+var showingDescription = false;
+var showingFilms = false;
 var isPlayingTrailer = false;
+var isReadyToPlay = false;
+var player;
+var youtube_id;
 
 window.onload = function() {
 
@@ -61,69 +67,99 @@ function keyController(){
 	
 	document.addEventListener('keydown', function (e) {
     	
-    	var e = e || e.keyCode;
-
+		var e = e || e.keyCode;
+		
     	if(e.keyCode == TvKeyCode.KEY_BACK){
     		console.log("HELLOOOOO");
     	}
     	
-    	if (e.keyCode == '13') {
+    	if (e.keyCode == TvKeyCode.KEY_ENTER) {
+    		e.preventDefault();
     		console.log("info - key ENTER pressed");
     		if(showingFilms){
     			changeWindow(2);
     		}
-
-    	}
-    	
+    		if(showingDescription){
+    			var focused = $('.active-button').attr('id');
+    			console.log(focused);
+    			switch(focused){
+    				case 'play-trailer':
+    					console.log('playing trailer...');
+    				break;
+    				case 'show-images':
+    					console.log('showing images...');
+    					//TODO: Add functionality show images
+    					//url example --> https://api.themoviedb.org/3/movie/330459/images?api_key=e23c818ec74b3447e740a6d758f88ddc&language=en-US&include_image_language=en
+    				break;
+    				case 'close-window':
+    					console.log('closing...');
+    					changeWindow(3);
+    				break;
+    			}
+    		}
+    	}  	
     	if (e.keyCode == TvKeyCode.KEY_INFO) { 
-    		console.log("info - key ESC pressed");
+    		console.log("info - key INFO pressed");
     		if (showingFilms) { changeWindow(4); }
     		if (showingDescription) { changeWindow(3); }
-    		if(isPlayingTrailer) { changeWindow(6); document.getElementById('trailer').pause();}
-    	}
-    	
+    		if (isPlayingTrailer) { changeWindow(6); document.getElementById('trailer').pause(); isPlayingTrailer = false; }
+    	}    	
     	if (e.keyCode == TvKeyCode.KEY_PAUSE) { 
     		console.log("info - key PAUSE pressed");
     		if(isPlayingTrailer) document.getElementById('trailer').pause(); isPlayingTrailer = false;
 
-    	} 
-    	
+    	}    	
     	if (e.keyCode == TvKeyCode.KEY_PLAY) { 
     		console.log("info - key PLAY pressed");
-    		if(showingDescription){
+    		if(showingDescription && !isPlayingTrailer){
     			changeWindow(5);
     			document.getElementById('trailer').play();
     			isPlayingTrailer = true;
     		}
-
-    	} 
-    	
+    	} 	
     	if (e.keyCode == '37') { 
     		console.log("info - key LEFT pressed");
     		if(showingFilms){
 				$(".film-list").slick('slickPrev');
-				updateFocus();
+				updateFocus(true);
+    		}
+    		if(showingDescription){
+    			changeDescriptionFocus(2);
     		}
     	}
-    	
-    	if (e.keyCode == '38') { 
-    		console.log("info - key UP pressed");	
-    	}
-    	
     	if (e.keyCode == '39') { 
     		console.log("info - key RIGHT pressed");
     		if(showingFilms){
 	    		$(".film-list").slick('slickNext');
-	    		updateFocus();	
+	    		updateFocus(true);	
     		}
-    	}
-    	
-    	if (e.keyCode == '40') { 
-    		console.log("info - key DOWN pressed");
-    	}    
-    	
+    		if(showingDescription){
+    			changeDescriptionFocus(1);
+    		}
+    	}    	
 	});
 		
+}
+
+function changeDescriptionFocus(direction){
+	
+	var buttonFocused = $(".active-button");
+	var parentFocused = $(".active-button").parent();
+	
+	switch(direction){
+		case 1: //Right arrow
+		if(parentFocused.next("div").length > 0) {
+			buttonFocused.removeClass("active-button");
+			parentFocused.next("div").children('button').addClass("active-button");
+		}	
+		break;
+		case 2: //Left arrow
+		if(parentFocused.prev("div").length > 0) {
+			buttonFocused.removeClass("active-button");
+			parentFocused.prev("div").children('button').addClass("active-button");
+		}
+		break;
+	}
 }
 
 function changeWindow(option){
@@ -147,26 +183,25 @@ function changeWindow(option){
 			$(".time-panel").fadeIn(FADE_TIME);
 			$(".menu-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
-			showingFilms = true;	
+			showingFilms = true;
+			setTimeout(updateFocus, FADE_TIME);
 		break;
 		case 4:
 			$('.film-list').slick('unslick');	
 			initializeSlick();
-			updateFocus();
+			updateFocus(true);
 			$(".menu-panel").fadeOut(FADE_TIME);
 			$(".selector-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
 			showingFilms = false;
 		break;	
 		case 5:
-
 			$(".info-panel").fadeOut(FADE_TIME);
 			$(".trailer-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
 			showingFilms = false;
 		break;	
 		case 6:
-
 			$(".trailer-panel").fadeOut(FADE_TIME);
 			$(".info-panel").fadeIn(FADE_TIME);
 			showingDescription = true;
@@ -177,8 +212,8 @@ function changeWindow(option){
 
 }
 
-function updateFocus(){
-	
+function updateFocus(hasToUpdateBackground){
+		
 	//Change focus class
 	$('.active').removeClass('active');
 	$('.slick-center .focus').addClass('active');
@@ -193,10 +228,12 @@ function updateFocus(){
 	$(".title-rating").html(starsRating);
 
 	//Fill image background
-	var path_image = $(".active").attr('data-backgroundimage');
-	$('.background-photo').fadeOut('slow',function(){
-        $(this).attr('src',path_image).fadeIn(FADE_TIME, 'swing');
-    });
+	if(hasToUpdateBackground){
+		var path_image = $(".active").attr('data-backgroundimage');
+		$('.background-photo').fadeOut('slow',function(){
+	        $(this).attr('src',path_image).fadeIn(FADE_TIME, 'swing');
+	    })
+	}
 
 	//Fill info about focus film
 	console.log("STARTING HTTP MOVIE DESCRIPTION...");
@@ -243,7 +280,7 @@ function getJSONMenu(json){
 	//Refresh text to match info
 	changeWindow(1);
 	initializeSlick();
-	updateFocus();
+	updateFocus(true);
 	
 }
 
@@ -275,9 +312,8 @@ function getJSONDescription(json){
 	$(".info-panel").html(renderedTemplate);
 	
 	//Fill the url link on the video tag
-	var vid = document.getElementById("trailer");
-	vid.src = "https://www.youtube.com/watch?v=" + JSONresponse.videos.results[0].key;
-	
+	youtube_id = JSONresponse.videos.results[0].key;
+
 }
 
 function updateClock(){
@@ -308,3 +344,66 @@ function initializeSlick(){
 	});
 
 }
+
+function initializeVideo(youtube_id){
+
+	//$('.trailer-panel').empty();
+	//var playerDiv = document.createElement('div');
+	//playerDiv.id = 'player';
+	//$('.trailer-panel').append(playerDiv);
+	
+}
+
+//YOUTUBE API CODE TO USE VIDEOS IFRAME
+/*<!DOCTYPE html>
+<html>
+  <body>
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <div id="player"></div>
+
+    <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          videoId: 'M7lc1UVf-VE',
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          setTimeout(stopVideo, 6000);
+          done = true;
+        }
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }
+    </script>
+  </body>
+</html>*/
+
+

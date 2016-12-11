@@ -35,6 +35,11 @@ body{
 	padding-bottom: 10px;
 }
 
+.add-space{
+	padding: 25px;
+	font-size: 25px;
+}
+
 .clearfix{
 	position: relative;
 }
@@ -233,4 +238,9 @@ min-width: 100%; min-height: 100%;
 width: auto; height: auto; z-index: -100;
 background-size: cover; 
 }
+
+.active-button{
+	background-color: rgba(255,255,255,1)!important;
+}
+
 
