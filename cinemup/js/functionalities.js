@@ -9,6 +9,7 @@ var PETITION_PARAMETER = "popular";
 var JSONresponse;
 var showingDescription = false;
 var showingFilms = false;
+var showingTrailer = false;
 var isPlayingTrailer = false;
 var isReadyToPlay = false;
 var player;
@@ -19,9 +20,10 @@ window.onload = function() {
 	updateClock();
 	setInterval(updateClock, UPDATE_TIME_CLOCK);
 
-	$(".menu-panel").hide()	//Amaguem el carrousel de pelicules i el panell d'informació per mostrar la galeria inicial
-	$(".info-panel").hide()
+	$(".menu-panel").hide();	
+	$(".info-panel").hide();
 	$(".trailer-panel").hide();
+	$(".images-panel").hide();
 	
 	if(!showingFilms && !showingDescription){
 		$.caph.focus.activate(function(nearestFocusableFinderProvider, controllerProvider) {
@@ -74,10 +76,14 @@ function keyController(){
     	}
     	
     	if (e.keyCode == TvKeyCode.KEY_ENTER) {
-    		e.preventDefault();
     		console.log("info - key ENTER pressed");
     		if(showingFilms){
-    			changeWindow(2);
+    			changeWindow(3);
+    			//TODO: peticion de imatges i omplir div
+    			var id = $("#show-images").attr('data-id');
+    			getHttpRequestImages("https://api.themoviedb.org/3/movie/" + id + "/images?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE +"&include_image_language=en");
+    			console.log("STARTED HTTP MOVIE IMAGES...");
+    			//url example --> https://api.themoviedb.org/3/movie/330459/images?api_key=e23c818ec74b3447e740a6d758f88ddc&language=en-US&include_image_language=en
     		}
     		if(showingDescription){
     			var focused = $('.active-button').attr('id');
@@ -85,29 +91,38 @@ function keyController(){
     			switch(focused){
     				case 'play-trailer':
     					console.log('playing trailer...');
+    					//changeWindow(5);
     				break;
     				case 'show-images':
     					console.log('showing images...');
-    					//TODO: Add functionality show images
-    					//url example --> https://api.themoviedb.org/3/movie/330459/images?api_key=e23c818ec74b3447e740a6d758f88ddc&language=en-US&include_image_language=en
+    					changeWindow(7);
     				break;
     				case 'close-window':
     					console.log('closing...');
-    					changeWindow(3);
+    					changeWindow(4);
     				break;
     			}
     		}
     	}  	
     	if (e.keyCode == TvKeyCode.KEY_INFO) { 
     		console.log("info - key INFO pressed");
-    		if (showingFilms) { changeWindow(4); }
-    		if (showingDescription) { changeWindow(3); }
-    		if (isPlayingTrailer) { changeWindow(6); document.getElementById('trailer').pause(); isPlayingTrailer = false; }
+    		if (showingFilms) { changeWindow(2); }
+    		if (showingDescription) { changeWindow(4); }
+    		if (showingTrailer) { 
+    			changeWindow(6);  
+    			document.getElementById('trailer').play(0);
+    			isShowingTrailer = false;
+			}
+    		if(showingImages){
+    			changeWindow(7);
+    		}
     	}    	
     	if (e.keyCode == TvKeyCode.KEY_PAUSE) { 
     		console.log("info - key PAUSE pressed");
-    		if(isPlayingTrailer) document.getElementById('trailer').pause(); isPlayingTrailer = false;
-
+    		if(isShowingTrailer && isPlayingTrailer){
+    			document.getElementById('trailer').pause(); 
+    			isPlayingTrailer = false;
+    		}
     	}    	
     	if (e.keyCode == TvKeyCode.KEY_PLAY) { 
     		console.log("info - key PLAY pressed");
@@ -115,9 +130,10 @@ function keyController(){
     			changeWindow(5);
     			document.getElementById('trailer').play();
     			isPlayingTrailer = true;
+    			isShowingTrailer = true;
     		}
     	} 	
-    	if (e.keyCode == '37') { 
+    	if (e.keyCode == TvKeyCode.KEY_LEFT) { 
     		console.log("info - key LEFT pressed");
     		if(showingFilms){
 				$(".film-list").slick('slickPrev');
@@ -127,7 +143,7 @@ function keyController(){
     			changeDescriptionFocus(2);
     		}
     	}
-    	if (e.keyCode == '39') { 
+    	if (e.keyCode == TvKeyCode.KEY_RIGHT) { 
     		console.log("info - key RIGHT pressed");
     		if(showingFilms){
 	    		$(".film-list").slick('slickNext');
@@ -172,21 +188,6 @@ function changeWindow(option){
 			showingDescription = false;
 		break;
 		case 2:
-			$(".menu-panel").fadeOut(FADE_TIME);
-			$(".time-panel").fadeOut(FADE_TIME);
-			$(".info-panel").fadeIn(FADE_TIME);
-			showingDescription = true;
-			showingFilms = false;
-		break;
-		case 3:
-			$(".info-panel").fadeOut(FADE_TIME);
-			$(".time-panel").fadeIn(FADE_TIME);
-			$(".menu-panel").fadeIn(FADE_TIME);
-			showingDescription = false;
-			showingFilms = true;
-			setTimeout(updateFocus, FADE_TIME);
-		break;
-		case 4:
 			$('.film-list').slick('unslick');	
 			initializeSlick();
 			updateFocus(true);
@@ -195,19 +196,55 @@ function changeWindow(option){
 			showingDescription = false;
 			showingFilms = false;
 		break;	
+		case 3:
+			$(".menu-panel").fadeOut(FADE_TIME);
+			$(".time-panel").fadeOut(FADE_TIME);
+			$(".info-panel").fadeIn(FADE_TIME);
+			showingDescription = true;
+			showingFilms = false;
+		break;
+		case 4:
+			$(".info-panel").fadeOut(FADE_TIME);
+			$(".time-panel").fadeIn(FADE_TIME);
+			$(".menu-panel").fadeIn(FADE_TIME);
+			showingDescription = false;
+			showingFilms = true;
+			setTimeout(updateFocus, FADE_TIME);
+		break;
 		case 5:
 			$(".info-panel").fadeOut(FADE_TIME);
 			$(".trailer-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
 			showingFilms = false;
+			showingTrailer = true;
 		break;	
 		case 6:
 			$(".trailer-panel").fadeOut(FADE_TIME);
 			$(".info-panel").fadeIn(FADE_TIME);
 			showingDescription = true;
 			showingFilms = false;
+			showingTrailer = false;
 			isPlayingTrailer = false;
-		break;	
+		break;
+		case 7:
+			$(".info-panel").fadeOut(FADE_TIME);
+			$(".images-panel").fadeIn(FADE_TIME);
+			showingDescription = false;
+			showingFilms = false;
+			showingTrailer = false;
+			isPlayingTrailer = false;
+		break;
+		case 8:
+			$(".images-panel").fadeOut(FADE_TIME);
+			$(".info-panel").fadeIn(FADE_TIME);
+			showingDescription = true;
+			showingFilms = false;
+			showingTrailer = false;
+			isPlayingTrailer = false;
+		break;
+		default:
+			console.log("ERROR: Wrong changeWindow parameter.");
+		break;
 	}
 
 }
@@ -316,7 +353,36 @@ function getJSONDescription(json){
 
 }
 
-function updateClock(){
+function getHttpRequestImages(theUrl, callback) {
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+        	getJSONImages(xmlHttp.responseText); 
+        }
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+
+}
+
+function getJSONImages(json){
+	
+	//Parse response to JSON format
+	JSONresponse = JSON.parse(json);
+	console.log(JSONresponse.posters.slice(0,6));
+	console.log("...FINISHED HTTP MOVIE IMAGES");
+	
+	//Render description template
+	var source   = $("#images-template").html();
+	var template = Handlebars.compile(source);
+	var renderedTemplate = template(JSONresponse.posters.slice(0,11));
+	console.log(renderedTemplate);
+	$(".images-panel").html(renderedTemplate);
+		
+}
+
+function updateClock() {
 	
 	var date = new Date()
 	var am = date.getHours() < 12 ? 'a.m.' : 'p.m.';

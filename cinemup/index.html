@@ -80,8 +80,7 @@
         </div>           
     </div>
 
-    <div class="container-fluid info-panel">
-    </div>
+    <div class="container-fluid info-panel"></div>
     
     <div class="trailer-panel">
         <video id="trailer"
@@ -94,6 +93,9 @@
 	    <h4 class="white-text display-5 date"></h4> 
 	</div>
 
+	<div class="images-panel"></div>	
+
+			
     <!-- Menu template -->
 	<script id="menu-template" type="text/x-handlebars-template">
 		{{#each results}}
@@ -188,7 +190,7 @@
                     <button type="button" id="play-trailer" class="btn btn-default btn-outline btn-lg active-button btn-block add-space"><i class="fa fa-play" aria-hidden="true"></i> Play Trailer</button>
                 </div>
                 <div class="col-xs-4">
-                    <button type="button" id="show-images" class="btn btn-default btn-outline btn-lg btn-block add-space"><i class="fa fa-picture-o" aria-hidden="true"></i> Show Images</button>
+                    <button type="button" id="show-images" data-id="{{id}}" class="btn btn-default btn-outline btn-lg btn-block add-space"><i class="fa fa-picture-o" aria-hidden="true"></i> Show Images</button>
                 </div>
                 <div class="col-xs-4">
                     <button type="button" id="close-window" class="btn btn-default btn-outline btn-lg btn-block add-space"><i class="fa fa-times" aria-hidden="true"></i> Close window</button>
@@ -196,6 +198,23 @@
             </div>
         </div>
     </script>
+
+	<!-- Images template -->
+	<script id="images-template" type="text/x-handlebars-template">
+		<div class="row">
+		<div class="col-sm-12">
+			<h1 class="white-text text-center">POSTERS FROM THE FILM</h1>
+			<h2 class="white-text text-center">Showing {{this.length}} results</h2>
+		</div>
+		{{#each this}}
+			<div class="col-sm-2">
+				<img class="photo" 
+					src="https://image.tmdb.org/t/p/w300{{file_path}}">
+			</div>
+		{{/each}}
+		
+		</div>
+	</script>
 
     <!-- Script imports -->
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
