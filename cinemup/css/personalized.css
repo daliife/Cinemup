@@ -35,6 +35,11 @@ body{
 	padding-bottom: 10px;
 }
 
+.add-padding-basic-2{
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
 .add-space{
 	padding: 25px;
 	font-size: 25px;
@@ -87,7 +92,7 @@ body{
 
 .fixed-padding{
 	padding-top: 6em;
-	padding-bottom: 6em;
+	padding-bottom: 8em;
 }
 
 .bottom{
@@ -198,7 +203,7 @@ body{
 }
 
 #plot-info, tr{
-	font-size: 19px!important;
+	font-size: 22px!important;
 }
 
 .less-opacity{
@@ -233,14 +238,32 @@ body{
 }
 
 video#trailer { 
-position: fixed; right: 0; bottom: 0;
-min-width: 100%; min-height: 100%;
-width: auto; height: auto; z-index: -100;
-background-size: cover; 
+    width: 100%;
+    height: auto;
+    max-height: 100%; 
+    left: 50%;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .active-button{
 	background-color: rgba(255,255,255,1)!important;
 }
 
+.alignment-images{
+	width: 20%;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	float: left;
+}
 
+.poster-photo{
+	display: block;
+	margin: auto;
+}
+
+.images-panel{
+	padding-top: 25px;
+}

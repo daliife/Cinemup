@@ -86,6 +86,9 @@
         <video id="trailer"
             src="http://content.bitsontherun.com/videos/q1fx20VZ-52qL9xLP.mp4" 	preload="auto">
     	</video>
+    	<!--<iframe id="ytplayer" type="text/html" width="640" height="360"
+  		src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
+  		frameborder="0"></iframe>-->
     </div>
 
 	<div class="time-panel">
@@ -93,9 +96,8 @@
 	    <h4 class="white-text display-5 date"></h4> 
 	</div>
 
-	<div class="images-panel"></div>	
-
-			
+	<div class="container-fluid images-panel"></div>	
+		
     <!-- Menu template -->
 	<script id="menu-template" type="text/x-handlebars-template">
 		{{#each results}}
@@ -202,17 +204,15 @@
 	<!-- Images template -->
 	<script id="images-template" type="text/x-handlebars-template">
 		<div class="row">
-		<div class="col-sm-12">
-			<h1 class="white-text text-center">POSTERS FROM THE FILM</h1>
-			<h2 class="white-text text-center">Showing {{this.length}} results</h2>
-		</div>
 		{{#each this}}
-			<div class="col-sm-2">
-				<img class="photo" 
+			<div class="alignment-images">
+				<img class="poster-photo" 
 					src="https://image.tmdb.org/t/p/w300{{file_path}}">
 			</div>
 		{{/each}}
-		
+		<div class="col-sm-12 add-padding-basic-2">
+			<h3 class="white-text text-center">Showing {{this.length}} results</h3>
+		</div>
 		</div>
 	</script>
 
@@ -223,6 +223,26 @@
     <script type="text/javascript" src="js/caph-jquery.min.js"></script>
     <script type="text/javascript" src="js/functionalities.js"></script>
     <script type="text/javascript" src="js/TVKeyValue.js"></script>
+
+	<script>
+	  // Load the IFrame Player API code asynchronously.
+	  var tag = document.createElement('script');
+	  tag.src = "https://www.youtube.com/player_api";
+	  var firstScriptTag = document.getElementsByTagName('script')[0];
+	  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	
+	  // Replace the 'ytplayer' element with an <iframe> and
+	  // YouTube player after the API code downloads.
+	  var player;
+	  function onYouTubePlayerAPIReady() {
+	    player = new YT.Player('ytplayer', {
+	      height: '360',
+	      width: '640',
+	      videoId: 'M7lc1UVf-VE'
+	    });
+	  }
+	</script>
+
 
 </body>
 

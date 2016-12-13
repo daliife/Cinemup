@@ -10,8 +10,8 @@ var JSONresponse;
 var showingDescription = false;
 var showingFilms = false;
 var showingTrailer = false;
+var showingImages = false;
 var isPlayingTrailer = false;
-var isReadyToPlay = false;
 var player;
 var youtube_id;
 
@@ -20,12 +20,14 @@ window.onload = function() {
 	updateClock();
 	setInterval(updateClock, UPDATE_TIME_CLOCK);
 
+	//Hiding all unnecessary panels
 	$(".menu-panel").hide();	
 	$(".info-panel").hide();
 	$(".trailer-panel").hide();
 	$(".images-panel").hide();
-	
-	if(!showingFilms && !showingDescription){
+	$(".time-panel").hide();
+		
+	if(!showingFilms && !showingDescription && !showingTrailer && !showingImages){
 		$.caph.focus.activate(function(nearestFocusableFinderProvider, controllerProvider) {
 	        controllerProvider.onFocused(function(event, originalEvent) {
 	        	$(event.currentTarget).children('.option-image').css('opacity', '1');
@@ -70,24 +72,19 @@ function keyController(){
 	document.addEventListener('keydown', function (e) {
     	
 		var e = e || e.keyCode;
-		
-    	if(e.keyCode == TvKeyCode.KEY_BACK){
-    		console.log("HELLOOOOO");
-    	}
-    	
+		    	
     	if (e.keyCode == TvKeyCode.KEY_ENTER) {
     		console.log("info - key ENTER pressed");
     		if(showingFilms){
     			changeWindow(3);
-    			//TODO: peticion de imatges i omplir div
     			var id = $("#show-images").attr('data-id');
     			getHttpRequestImages("https://api.themoviedb.org/3/movie/" + id + "/images?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE +"&include_image_language=en");
     			console.log("STARTED HTTP MOVIE IMAGES...");
-    			//url example --> https://api.themoviedb.org/3/movie/330459/images?api_key=e23c818ec74b3447e740a6d758f88ddc&language=en-US&include_image_language=en
     		}
     		if(showingDescription){
+    			
     			var focused = $('.active-button').attr('id');
-    			console.log(focused);
+    			
     			switch(focused){
     				case 'play-trailer':
     					console.log('playing trailer...');
@@ -103,23 +100,23 @@ function keyController(){
     				break;
     			}
     		}
-    	}  	
+    	}
+    	//TODO: Change key_info for back button, but avoid closing app behaviour
     	if (e.keyCode == TvKeyCode.KEY_INFO) { 
     		console.log("info - key INFO pressed");
     		if (showingFilms) { changeWindow(2); }
     		if (showingDescription) { changeWindow(4); }
     		if (showingTrailer) { 
     			changeWindow(6);  
-    			document.getElementById('trailer').play(0);
-    			isShowingTrailer = false;
+    			document.getElementById('trailer').pause();
 			}
     		if(showingImages){
-    			changeWindow(7);
+    			changeWindow(8);
     		}
     	}    	
     	if (e.keyCode == TvKeyCode.KEY_PAUSE) { 
     		console.log("info - key PAUSE pressed");
-    		if(isShowingTrailer && isPlayingTrailer){
+    		if(showingTrailer && isPlayingTrailer){
     			document.getElementById('trailer').pause(); 
     			isPlayingTrailer = false;
     		}
@@ -130,7 +127,9 @@ function keyController(){
     			changeWindow(5);
     			document.getElementById('trailer').play();
     			isPlayingTrailer = true;
-    			isShowingTrailer = true;
+    		}
+    		if(showingTrailer && !isPlayingTrailer){
+    			document.getElementById('trailer').play();
     		}
     	} 	
     	if (e.keyCode == TvKeyCode.KEY_LEFT) { 
@@ -185,7 +184,9 @@ function changeWindow(option){
 			$(".selector-panel").fadeOut(FADE_TIME);
 			$(".menu-panel").fadeIn(FADE_TIME);
 			showingFilms = true;
-			showingDescription = false;
+			showingTrailer = false;
+			showingImages = false;
+			isPlayingTrailer = false;
 		break;
 		case 2:
 			$('.film-list').slick('unslick');	
@@ -195,43 +196,59 @@ function changeWindow(option){
 			$(".selector-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
 			showingFilms = false;
+			showingTrailer = false;
+			showingImages = false;
+			isPlayingTrailer = false;
 		break;	
 		case 3:
 			$(".menu-panel").fadeOut(FADE_TIME);
-			$(".time-panel").fadeOut(FADE_TIME);
+			//$(".time-panel").fadeOut(FADE_TIME);
 			$(".info-panel").fadeIn(FADE_TIME);
 			showingDescription = true;
 			showingFilms = false;
+			showingTrailer = false;
+			showingImages = false;
+			isPlayingTrailer = false;
 		break;
 		case 4:
 			$(".info-panel").fadeOut(FADE_TIME);
-			$(".time-panel").fadeIn(FADE_TIME);
+			//$(".time-panel").fadeIn(FADE_TIME);
 			$(".menu-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
 			showingFilms = true;
+			showingTrailer = false;
+			showingImages = false;
+			isPlayingTrailer = false;
 			setTimeout(updateFocus, FADE_TIME);
 		break;
 		case 5:
 			$(".info-panel").fadeOut(FADE_TIME);
 			$(".trailer-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
+			showingDescription = false;
 			showingFilms = false;
 			showingTrailer = true;
+			showingImages = false;
+			isPlayingTrailer = false;
 		break;	
 		case 6:
 			$(".trailer-panel").fadeOut(FADE_TIME);
 			$(".info-panel").fadeIn(FADE_TIME);
+			showingDescription = false;
 			showingDescription = true;
 			showingFilms = false;
 			showingTrailer = false;
+			showingImages = false;
 			isPlayingTrailer = false;
 		break;
 		case 7:
 			$(".info-panel").fadeOut(FADE_TIME);
 			$(".images-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
+			showingDescription = false;
 			showingFilms = false;
 			showingTrailer = false;
+			showingImages = true;
 			isPlayingTrailer = false;
 		break;
 		case 8:
@@ -240,6 +257,7 @@ function changeWindow(option){
 			showingDescription = true;
 			showingFilms = false;
 			showingTrailer = false;
+			showingImages = false;
 			isPlayingTrailer = false;
 		break;
 		default:
@@ -370,13 +388,12 @@ function getJSONImages(json){
 	
 	//Parse response to JSON format
 	JSONresponse = JSON.parse(json);
-	console.log(JSONresponse.posters.slice(0,6));
 	console.log("...FINISHED HTTP MOVIE IMAGES");
 	
-	//Render description template
+	//Render Images template
 	var source   = $("#images-template").html();
 	var template = Handlebars.compile(source);
-	var renderedTemplate = template(JSONresponse.posters.slice(0,11));
+	var renderedTemplate = template(JSONresponse.posters.slice(0,10));
 	console.log(renderedTemplate);
 	$(".images-panel").html(renderedTemplate);
 		
@@ -411,6 +428,7 @@ function initializeSlick(){
 
 }
 
+//TODO: Check if youtube api works or not and find alternatives
 function initializeVideo(youtube_id){
 
 	//$('.trailer-panel').empty();
