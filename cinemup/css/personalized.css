@@ -91,8 +91,8 @@ body{
 }
 
 .fixed-padding{
-	padding-top: 6em;
-	padding-bottom: 8em;
+	padding-top: 3em;
+	padding-bottom: 2em;
 }
 
 .bottom{
@@ -222,7 +222,9 @@ body{
 }
 
 .time-panel{
-	position:relative;
+	position:absolute;
+	width: 500px;
+	bottom:13%;	
 	z-index:5;
 }
 
@@ -266,4 +268,8 @@ video#trailer {
 
 .images-panel{
 	padding-top: 25px;
+}
+
+#creation-list{
+	padding-top: 6em;
 }

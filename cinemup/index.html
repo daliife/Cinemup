@@ -31,29 +31,29 @@
         </div>
         <div class="row">
             <div class="options">
-            	<div focusable data-focusable-initial-focus="true" data-petitiontype="upcoming" class="col-sm-4 option-panel">
+            	<div focusable data-focusable-initial-focus="true" data-petitiontype="upcoming" data-videotype="movie" class="col-sm-4 option-panel">
             		<img src="images/upcoming.jpg" class="option-image" />
                 	<h1 class="white-text display-4 option-type"><i class="fa fa-compass" aria-hidden="true"></i> UPCOMING</h1> 
             	</div>
-            	<div focusable data-petitiontype="top_rated" class="col-sm-4 option-panel">
+            	<div focusable data-petitiontype="top_rated" data-videotype="movie" class="col-sm-4 option-panel">
             		<img src="images/top_rated.jpg" class="option-image" />
                 	<h1 class="white-text display-4 option-type"><i class="fa fa-star" aria-hidden="true"></i> TOP RATED</h1> 
             	</div>
-            	<div focusable data-petitiontype="popular" class="col-sm-4 option-panel">
+            	<div focusable data-petitiontype="popular" data-videotype="movie" class="col-sm-4 option-panel">
             		<img src="images/popular.jpg" class="option-image" />
                 	<h1 class="white-text display-4 option-type"><i class="fa fa-fire" aria-hidden="true"></i> POPULAR</h1> 
             	</div>
-            	<div focusable data-petitiontype="now_playing" class="col-sm-4 option-panel">
+            	<div focusable data-petitiontype="now_playing" data-videotype="movie" class="col-sm-4 option-panel">
             		<img src="images/now_playing.jpg" class="option-image" />
                 	<h1 class="white-text display-4 option-type"><i class="fa fa-play-circle-o" aria-hidden="true"></i> NOW PLAYING</h1> 
             	</div>
-            	<div focusable data-petitiontype="latest" class="col-sm-4 option-panel">
+            	<div focusable data-petitiontype="popular" data-videotype="tv" class="col-sm-4 option-panel">
             		<img src="images/latest.jpg" class="option-image" />
-                	<h1 class="white-text display-4 option-type"><i class="fa fa-clock-o" aria-hidden="true"></i> LATEST MOVIES</h1> 
+                	<h1 class="white-text display-4 option-type"><i class="fa fa-clock-o" aria-hidden="true"></i> POPULAR TV</h1> 
             	</div>  
-            	<div focusable data-petitiontype="upcoming" class="col-sm-4 option-panel">
+            	<div focusable data-petitiontype="top_rated" data-videotype="tv" class="col-sm-4 option-panel">
             		<img src="images/upcoming.jpg" class="option-image" />
-                	<h1 class="white-text display-4 option-type"><i class="fa fa-film" aria-hidden="true"></i> UPCOMING</h1> 
+                	<h1 class="white-text display-4 option-type"><i class="fa fa-film" aria-hidden="true"></i> TOP TV</h1> 
             	</div>            	            	            	            	     	            	            	
             </div> 
         </div> 	
@@ -103,14 +103,19 @@
 		{{#each results}}
 			<div >
 				<img class="focus" 
-					data-title="{{original_title}}" 
+					data-title="{{#if title}}{{title}}{{else}}{{name}}{{/if}}" 
 					data-id="{{id}}"
 					data-release="{{release_date}}" 
 					data-overview="{{overview}}"
 					data-vote="{{vote_average}}" 
 					data-popularity="{{popularity}}"
 					data-backgroundimage="https://image.tmdb.org/t/p/w500{{backdrop_path}}" 
-					src="https://image.tmdb.org/t/p/w300{{poster_path}}">
+					{{#if poster_path}}
+						src="https://image.tmdb.org/t/p/w300{{poster_path}}">
+					{{else}}
+						src="images/imagenotfound.png">
+					{{/if}}
+					
 			</div>
 		{{/each}}
 	</script>
@@ -223,26 +228,6 @@
     <script type="text/javascript" src="js/caph-jquery.min.js"></script>
     <script type="text/javascript" src="js/functionalities.js"></script>
     <script type="text/javascript" src="js/TVKeyValue.js"></script>
-
-	<script>
-	  // Load the IFrame Player API code asynchronously.
-	  var tag = document.createElement('script');
-	  tag.src = "https://www.youtube.com/player_api";
-	  var firstScriptTag = document.getElementsByTagName('script')[0];
-	  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-	
-	  // Replace the 'ytplayer' element with an <iframe> and
-	  // YouTube player after the API code downloads.
-	  var player;
-	  function onYouTubePlayerAPIReady() {
-	    player = new YT.Player('ytplayer', {
-	      height: '360',
-	      width: '640',
-	      videoId: 'M7lc1UVf-VE'
-	    });
-	  }
-	</script>
-
 
 </body>
 
