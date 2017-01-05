@@ -1,22 +1,27 @@
 
 //Constant parameters
-var LANGUAGE_RESPONSE = "en-US";
-var FADE_TIME = 1000;
-var API_KEY = "e23c818ec74b3447e740a6d758f88ddc";
-var UPDATE_TIME_CLOCK = 60000;
-var PETITION_PARAMETER = "popular";
+var LANGUAGE_RESPONSE = "en-US";					//Language of the received JSON petitions
+var FADE_TIME = 1000;								//Value of transition's fade in miliseconds
+var API_KEY = "e23c818ec74b3447e740a6d758f88ddc";	//Personal API KEY to make petitions to "themoviedb"
+var UPDATE_TIME_CLOCK = 60000;						//Refresh time of the clock in miliseconds
 
-var JSONresponse;
+//Boolean flags
 var showingDescription = false;
 var showingFilms = false;
 var showingTrailer = false;
 var showingImages = false;
 var isPlayingTrailer = false;
-var player;
+var isPaused = false;
+var isShowingInstructions = false;
+
+//Needed variables
 var youtube_id;
+var typeVideo;
+var JSONresponse;
 
 window.onload = function() {
 
+	//Update the time and date every UPDATE_TIME_CLOCK ms
 	updateClock();
 	setInterval(updateClock, UPDATE_TIME_CLOCK);
 
@@ -25,8 +30,9 @@ window.onload = function() {
 	$(".info-panel").hide();
 	$(".trailer-panel").hide();
 	$(".images-panel").hide();
-	//$(".time-panel").hide();
-		
+	$(".instructions-panel").hide();
+	
+	//CAPH functions for the main menu selector
 	if(!showingFilms && !showingDescription && !showingTrailer && !showingImages){
 		$.caph.focus.activate(function(nearestFocusableFinderProvider, controllerProvider) {
 	        controllerProvider.onFocused(function(event, originalEvent) {
@@ -55,7 +61,7 @@ window.onload = function() {
 	        });	        
 	        controllerProvider.onSelected(function(event, originalEvent){
 	        	var petition = $(event.currentTarget).attr('data-petitiontype');
-	        	var typeVideo = $(event.currentTarget).attr('data-videotype');
+	        	typeVideo = $(event.currentTarget).attr('data-videotype');
 	 	 		var fill_info = $(event.currentTarget).children("h1").html();
 	 	 		$('#petition-type').html(fill_info);
 	 	 		console.log("STARTING HTTP MOVIE MENU...");
@@ -63,8 +69,9 @@ window.onload = function() {
 			});
 	    });
 	}
-	 
-	keyController(); //Escoltem els events de teclats
+	
+	//Listen key events
+	keyController();
 
 };
 
@@ -73,23 +80,29 @@ function keyController(){
 	document.addEventListener('keydown', function (e) {
     	
 		var e = e || e.keyCode;
-		    	
+		
+		//If the user push any button in when instructions toggled, it will hide automatically
+		if(isShowingInstructions){
+			$(".instructions-panel").fadeOut(FADE_TIME);
+			isShowingInstructions = false;
+		}
+		
     	if (e.keyCode == TvKeyCode.KEY_ENTER) {
     		console.log("info - key ENTER pressed");
     		if(showingFilms){
     			changeWindow(3);
     			var id = $("#show-images").attr('data-id');
-    			getHttpRequestImages("https://api.themoviedb.org/3/movie/" + id + "/images?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE +"&include_image_language=en");
-    			console.log("STARTED HTTP MOVIE IMAGES...");
-    		}
-    		if(showingDescription){
-    			
-    			var focused = $('.active-button').attr('id');
-    			
+    			getHttpRequestImages("https://api.themoviedb.org/3/" + typeVideo + "/" + id + "/images?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE +"&include_image_language=en");
+    			console.log("STARTED HTTP MOVIE IMAGES..."); 			
+    		}else if(showingDescription){		
+    			var focused = $('.active-button').attr('id');   			
     			switch(focused){
     				case 'play-trailer':
     					console.log('playing trailer...');
-    					//changeWindow(5);
+    	    			changeWindow(5);
+    					document.getElementById('trailer').play();
+    	    			isPlayingTrailer = true;
+    	    			doAnimationPlayer(1);
     				break;
     				case 'show-images':
     					console.log('showing images...');
@@ -102,35 +115,36 @@ function keyController(){
     			}
     		}
     	}
-    	//TODO: Change key_info for back button, but avoid closing app behaviour
-    	if (e.keyCode == TvKeyCode.KEY_INFO) { 
+    	//TODO: Change RED KEY for BACK button, but avoid closing app behaviour
+    	if (e.keyCode == TvKeyCode.KEY_RED) { 
     		console.log("info - key INFO pressed");
     		if (showingFilms) { changeWindow(2); }
     		if (showingDescription) { changeWindow(4); }
+    		if(showingImages){ changeWindow(8); }
     		if (showingTrailer) { 
     			changeWindow(6);  
     			document.getElementById('trailer').pause();
-			}
-    		if(showingImages){
-    			changeWindow(8);
-    		}
+    			isPlayingTrailer = false;
+			} 		
     	}    	
     	if (e.keyCode == TvKeyCode.KEY_PAUSE) { 
     		console.log("info - key PAUSE pressed");
-    		if(showingTrailer && isPlayingTrailer){
+    		if(showingTrailer && isPlayingTrailer && !isPaused){
     			document.getElementById('trailer').pause(); 
-    			isPlayingTrailer = false;
+    			isPaused = true;
+    			doAnimationPlayer(2);
     		}
     	}    	
     	if (e.keyCode == TvKeyCode.KEY_PLAY) { 
     		console.log("info - key PLAY pressed");
-    		if(showingDescription && !isPlayingTrailer){
-    			changeWindow(5);
+    		if(isPlayingTrailer && isPaused){
     			document.getElementById('trailer').play();
-    			isPlayingTrailer = true;
+    			isPaused = false;
+    			doAnimationPlayer(1);
     		}
     		if(showingTrailer && !isPlayingTrailer){
     			document.getElementById('trailer').play();
+    			doAnimationPlayer(1);
     		}
     	} 	
     	if (e.keyCode == TvKeyCode.KEY_LEFT) { 
@@ -152,7 +166,14 @@ function keyController(){
     		if(showingDescription){
     			changeDescriptionFocus(1);
     		}
-    	}    	
+    	}
+    	if(e.keyCode == TvKeyCode.KEY_INFO){
+    		if(!isShowingInstructions){
+    			$(".instructions-panel").fadeIn(FADE_TIME);
+    			isShowingInstructions = true;;
+    		}
+    	}
+    	
 	});
 		
 }
@@ -203,7 +224,6 @@ function changeWindow(option){
 		break;	
 		case 3:
 			$(".menu-panel").fadeOut(FADE_TIME);
-			//$(".time-panel").fadeOut(FADE_TIME);
 			$(".info-panel").fadeIn(FADE_TIME);
 			showingDescription = true;
 			showingFilms = false;
@@ -213,7 +233,6 @@ function changeWindow(option){
 		break;
 		case 4:
 			$(".info-panel").fadeOut(FADE_TIME);
-			//$(".time-panel").fadeIn(FADE_TIME);
 			$(".menu-panel").fadeIn(FADE_TIME);
 			showingDescription = false;
 			showingFilms = true;
@@ -277,9 +296,10 @@ function updateFocus(hasToUpdateBackground){
 	//Update information text (title and rating)
 	var title = $(".active").attr('data-title');
 	var rating = $(".active").attr('data-vote');
-	var starsFilled = Math.round(rating * 5 / 10);
-	var starsEmpty = 5 - starsFilled;
-	var starsRating = '<i class="fa fa-star" aria-hidden="true"></i>'.repeat(starsFilled) + '<i class="fa fa-star-o" aria-hidden="true"></i>'.repeat(starsEmpty) + "  " + rating;
+	var starsFilled = Math.floor(rating * 5 / 10);
+	var starsSemiFilled = ((rating*5/10)-starsFilled) >= 0.5 ? 1 : 0; 
+	var starsEmpty = 5 - starsFilled - starsSemiFilled;
+	var starsRating = '<i class="fa fa-star" aria-hidden="true"></i>'.repeat(starsFilled) + '<i class="fa fa-star-half-o" aria-hidden="true"></i>'.repeat(starsSemiFilled) + '<i class="fa fa-star-o" aria-hidden="true"></i>'.repeat(starsEmpty) + "  " + rating;
 	$(".title-name").html(title);
 	$(".title-rating").html(starsRating);
 
@@ -294,7 +314,7 @@ function updateFocus(hasToUpdateBackground){
 	//Fill info about focus film
 	console.log("STARTING HTTP MOVIE DESCRIPTION...");
 	var id = $(".active").attr('data-id');
-	getHttpRequestDescription("https://api.themoviedb.org/3/movie/" + id + "?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE + "&append_to_response=videos", getJSONMenu);
+	getHttpRequestDescription("https://api.themoviedb.org/3/" + typeVideo +"/" + id + "?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE + "&append_to_response=videos", getJSONMenu);
 
 }
 
@@ -325,7 +345,7 @@ function getJSONMenu(json){
 	console.log(JSONresponse);
 	console.log("...FINISHED HTTP MENU");
 	
-	//Complie Handlebars and add to the html
+	//Compile Handlebars and add to the html
 	var source   = $("#menu-template").html();
 	var template = Handlebars.compile(source);
 	var renderedTemplate = template(JSONresponse);
@@ -395,7 +415,6 @@ function getJSONImages(json){
 	var source   = $("#images-template").html();
 	var template = Handlebars.compile(source);
 	var renderedTemplate = template(JSONresponse.posters.slice(0,10));
-	console.log(renderedTemplate);
 	$(".images-panel").html(renderedTemplate);
 		
 }
@@ -429,12 +448,28 @@ function initializeSlick(){
 
 }
 
+function doAnimationPlayer(type){
+	
+	var image_path;
+	switch(type){
+		case 1:
+			image_path = "images/play.png";
+			break;
+		case 2:
+			image_path = "images/pause.png";
+			break;
+	}
+	
+	$("#icon-player").attr("src", image_path);
+	$("#icon-player").show();
+	$("#icon-player").fadeOut(FADE_TIME);
+	
+}
+
 //TODO: Check if youtube api works or not and find alternatives
 function initializeVideo(youtube_id){
-
 	//$('.trailer-panel').empty();
 	//var playerDiv = document.createElement('div');
 	//playerDiv.id = 'player';
 	//$('.trailer-panel').append(playerDiv);
-	
 }

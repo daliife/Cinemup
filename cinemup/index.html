@@ -83,15 +83,16 @@
     <div class="container-fluid info-panel"></div>
     
     <div class="trailer-panel">
+		<img id="icon-player" src="images/play.png">
         <video id="trailer"
             src="http://content.bitsontherun.com/videos/q1fx20VZ-52qL9xLP.mp4" 	preload="auto">
     	</video>
-    	<!--<iframe id="ytplayer" type="text/html" width="640" height="360"
-  		src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
-  		frameborder="0"></iframe>-->
+
     </div>
 
-	<div class="time-panel">
+	<div class="instructions-panel">
+		<h1 class="white-text display-3 instructions-title">Instructions info</h1>
+		<img class="instructions-image" src="images/instructions.png"> 
 	    <h1 class="white-text display-3 time"></h1> 
 	    <h4 class="white-text display-5 date"></h4> 
 	</div>
@@ -129,14 +130,14 @@
         </div>    
         <div class="add-padding-top information-film">
             <div class="clearfix put-front">
-                <h1 class="display-3 white-text add-padding-basic float-xs-left film-title">{{original_title}}</h1>
-                <h3 class="add-padding-basic float-xs-right yellow-text bottom-placed"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> {{vote_average}}</span>
-                </h3>
+                <h1 class="display-3 white-text add-padding-basic float-xs-left film-title">{{#if title}} {{title}} {{else if name}} {{name}} {{else}} Not avaiable{{/if}}</h1>
+                <h1 class="add-padding-basic float-xs-right yellow-text bottom-placed"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> {{vote_average}}</span>
+                </h1>
             </div>
             <div class="clearfix put-front">
-                <h3 class="add-padding-basic float-xs-left">{{#each genres}}<span class="tag tag-pill tag-success black-text">
-                	{{name}}</span> {{/each}}</h3>
-                <h3 class="float-xs-right white-text">{{vote_count}} votes</h3>
+                <h1 class="add-padding-basic float-xs-left">{{#each genres}}<span class="tag tag-pill tag-info black-text">
+                	{{name}}</span> {{/each}}</h1>
+                <h1 class="float-xs-right white-text bottom-placed">{{vote_count}} votes</h1>
             </div>
             <div class="col-sm-12 clearfix put-front add-padding-top-2">
 	            <h3 class="white-text display-5">Plot</h3>
@@ -147,22 +148,61 @@
 	            <div class="col-sm-6">
 	                <table class="table table-responsive white-text add-padding-basic">
 	                    <tbody>
+							{{#if original_title}}
 	                        <tr>
-	                            <td class="less-opacity">Title</td>
-	                            <td>{{#if title}} {{title}} {{else}} Not avaiable{{/if}}</td>
+	                            <td class="less-opacity">Original Title</td>
+	                            <td>{{original_title}}</td>
 	                        </tr>
+							{{/if}}
+							{{#if original_name}}
+	                        <tr>
+	                            <td class="less-opacity">Original Title</td>
+	                            <td>{{original_name}}</td>
+	                        </tr>
+							{{/if}}
+							{{#if release_date}}
 	                        <tr>
 	                            <td class="less-opacity">Release date</td>
-	                            <td>{{#if release_date}} {{release_date}} {{else}} Not avaiable{{/if}}</td>
+	                            <td> {{release_date}}</td>
 	                        </tr>
+							{{/if}}
+							{{#if number_of_episodes}} 
+	                        <tr>
+	                            <td class="less-opacity">No. of Episodes</td>
+	                            <td>{{number_of_episodes}} episodes</td>
+	                        </tr>
+							{{/if}}
+							{{#if number_of_seasons}} 
+	                        <tr>
+	                            <td class="less-opacity">No. of Seasons</td>
+	                            <td>{{number_of_seasons}} seasons</td>
+	                        </tr>
+							{{/if}}
+							{{#if first_air_date}}
+	                        <tr>
+	                            <td class="less-opacity">First Air Date</td>
+	                            <td> {{first_air_date}}</td>
+	                        </tr>
+							{{/if}}
+							{{#if last_air_date}}
+	                        <tr>
+	                            <td class="less-opacity">Last Air Date</td>
+	                            <td> {{last_air_date}}</td>
+	                        </tr>
+							{{/if}}
+
+							{{#if runtime}} 
 	                        <tr>
 	                            <td class="less-opacity">Runtime</td>
-	                            <td>{{#if runtime}} {{runtime}} minutes{{else}} Not avaiable{{/if}}</td>
+	                            <td>{{runtime}} minutes</td>
 	                        </tr>
+							{{/if}}
+							{{#if original_language}} 
 	                        <tr>
 	                            <td class="less-opacity">Language</td>
-	                            <td>{{#if original_language}} {{original_language}}{{else}} Not avaiable{{/if}}</td>
+	                            <td>{{original_language}}</td>
 	                        </tr>
+							{{/if}}
 	                    </tbody>
 	                </table>
 	            </div>
@@ -170,7 +210,11 @@
 	                <table class="table table-responsive white-text add-padding-basic">
 	                    <tbody>
 	                        <tr>
-	                            <td class="less-opacity">Homepage</td>
+	                            <td class="less-opacity">Popularity</td>
+	                            <td>{{#if popularity}} {{popularity}}%{{else}} Not avaiable{{/if}}</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="less-opacity">Webpage</td>
 	                            <td>{{#if homepage}} {{homepage}}{{else}} Not avaiable{{/if}}</td>
 	                        </tr>
 	                        <tr>
@@ -178,16 +222,18 @@
 	                            <td>{{#if status}} {{status}} {{else}} Not avaiable{{/if}}</td>
 	                        </tr>
 	                        <tr>
-	                            <td class="less-opacity">Budget / Revenues</td>
+	                            <td class="less-opacity">Budget</td>
 	                            <td>
-	                            {{#if budget}} {{budget}}$ {{else}} Not avaiable{{/if}}/
-	                            {{#if revenue}} {{revenue}}$ {{else}} Not avaiable{{/if}}
+	                            {{#if budget}} {{budget}}$ {{else}} Not avaiable{{/if}}
 	                            </td>
 	                        </tr>
 	                        <tr>
-	                            <td class="less-opacity">Popularity</td>
-	                            <td>{{#if popularity}} {{popularity}}%{{else}} Not avaiable{{/if}}</td>
+	                            <td class="less-opacity">Revenues</td>
+	                            <td>
+	                            {{#if revenue}} {{revenue}}$ {{else}} Not avaiable{{/if}}
+	                            </td>
 	                        </tr>
+
 	                    </tbody>
 	                </table>
 	            </div>   
@@ -200,7 +246,7 @@
                     <button type="button" id="show-images" data-id="{{id}}" class="btn btn-default btn-outline btn-lg btn-block add-space"><i class="fa fa-picture-o" aria-hidden="true"></i> Show Images</button>
                 </div>
                 <div class="col-xs-4">
-                    <button type="button" id="close-window" class="btn btn-default btn-outline btn-lg btn-block add-space"><i class="fa fa-times" aria-hidden="true"></i> Close window</button>
+                    <button type="button" id="close-window" class="btn btn-default btn-outline btn-lg btn-block add-space"><i class="fa fa-times" aria-hidden="true"></i> Close</button>
                 </div>
             </div>
         </div>
@@ -216,8 +262,14 @@
 			</div>
 		{{/each}}
 		<div class="col-sm-12 add-padding-basic-2">
-			<h3 class="white-text text-center">Showing {{this.length}} results</h3>
-		</div>
+			<div class="col-sm-6">
+				<h1 class="white-text text-left">Showing {{this.length}} results</h1>
+			</div>
+			<div class="col-sm-6">
+				<h1 class="white-text text-right">Press <i class="fa fa-info-circle" aria-hidden="true"></i> to go back</h1>
+			</div>
+		</div>		
+		
 		</div>
 	</script>
 

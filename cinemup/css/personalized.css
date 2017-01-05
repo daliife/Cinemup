@@ -19,11 +19,11 @@ body{
 }
 
 .add-padding-top{
-	padding-top: 5em;
+	padding-top: 4em;
 }
 
 .add-padding-top-2{
-	padding-top: 2em;
+	padding-top: 1.5em;
 }
 
 .add-padding-bottom{
@@ -50,7 +50,7 @@ body{
 }
 
 .bottom-placed{
-	top: 50%;
+	top: 25%;
 	right: 0;
 	position: absolute;
 }
@@ -64,9 +64,12 @@ body{
 }
 
 .plot{
-	line-height: 35px;
-	text-align: justify;
-    text-justify: inter-word;
+	line-height: 2.2em;
+	overflow: hidden;
+	text-overflow: ellipsis;	
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
 }
 
 .border-down{
@@ -91,8 +94,8 @@ body{
 }
 
 .fixed-padding{
-	padding-top: 3em;
-	padding-bottom: 2em;
+	padding-top: 7em;
+	padding-bottom: 7em;
 }
 
 .bottom{
@@ -105,7 +108,7 @@ body{
 }
 
 .topper-2{
-	padding-top: 1em;
+	padding-top: 0.5em;
 }
 
 .title-name,.title-rating{
@@ -221,22 +224,39 @@ body{
 	text-align: right;
 }
 
-.time-panel{
+.instructions-panel{
 	position:absolute;
-	width: 500px;
-	bottom:13%;	
+	width: 1920px;
+	height: 1080px;
+	top: 0;
+	background-color: rgba(0,0,0,0.75);	
 	z-index:5;
+}
+
+.instructions-title{
+	position:absolute;
+	top: 14%;
+	left: 27%;
+	font-size: 5em	
+}
+
+.instructions-image{
+	position:absolute;
+	top: 14%;
+	left: 19%;
+	width: 80%;	
 }
 
 .date{
 	position:absolute;
-	top: 3.5em;
-	left:60px;	
+	bottom: 6%;
+	left: 68px;	
 }
 
 .time{
 	position:absolute;
 	left: 60px;
+	bottom: 10%;
 }
 
 video#trailer { 
@@ -248,6 +268,7 @@ video#trailer {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
+    z-index: -1;
 }
 
 .active-button{
@@ -259,6 +280,7 @@ video#trailer {
 	padding-top: 15px;
 	padding-bottom: 15px;
 	float: left;
+	height: 480px;
 }
 
 .poster-photo{
@@ -271,5 +293,13 @@ video#trailer {
 }
 
 #creation-list{
-	padding-top: 6em;
+	padding-top: 0em;
+}
+
+#icon-player{
+	width: 10%;
+	top:42%;
+	left: 50%;
+	position:absolute;
+	z-index: 1;
 }

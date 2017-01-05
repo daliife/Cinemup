@@ -26,8 +26,7 @@ window.TvKeyCode =
 		"KEY_PAUSE" : 19,//
 		"KEY_RECORD" : 416,//
 		"KEY_PLAY" : 415,//
-		"KEY_STOP" : 413,//
-		
+		"KEY_STOP" : 413,//		
 		"KEY_INFO" : 457,//
 		"KEY_LEFT" : 37,//
 		"KEY_RIGHT" : 39,//
@@ -35,11 +34,9 @@ window.TvKeyCode =
 		"KEY_DOWN" : 40,//
 		"KEY_ENTER" : 13,//
 		"KEY_BACK" : 0,//
-		
 		"KEY_RED" : 403,//
 		"KEY_GREEN" : 404,//
 		"KEY_YELLOW" : 405,//
 		"KEY_BLUE" : 406,//
-		"KEY_MENU" : 18//
-				
+		"KEY_MENU" : 18//			
 }
