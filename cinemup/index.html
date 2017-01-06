@@ -1,106 +1,110 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <meta name="description" content="Tizen TV Recommendation APP"/>
-    <meta name="author" content="Alex Cordon and David Gimeno"/>
-
-    <title>CINEMUP</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Icons from font awesome CSS -->
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <!-- Slick CSS (carousel effect) -->
-    <link rel="stylesheet" type="text/css" href="css/slick.css"/>
-    <!-- Personailzed CSS -->
-    <link href="css/personalized.css" rel="stylesheet">
-    
-</head>
-
-<body>
-
-	<div class="container-fluid selector-panel">
-        <div><img src="" class="background-image"></div>
-        <div class="row fixed-padding">
-            <div class="col-sm-4 text-center">
-                <h1 class="white-text display-3">CINEM <i class="fa fa-film" aria-hidden="true"></i> APP</h1> 
-            </div>
-             <div class="col-sm-8 text-center"></div>
-        </div>
-        <div class="row">
-            <div class="options">
-            	<div focusable data-focusable-initial-focus="true" data-petitiontype="upcoming" data-videotype="movie" class="col-sm-4 option-panel">
-            		<img src="images/upcoming.jpg" class="option-image" />
-                	<h1 class="white-text display-4 option-type"><i class="fa fa-compass" aria-hidden="true"></i> UPCOMING</h1> 
-            	</div>
-            	<div focusable data-petitiontype="top_rated" data-videotype="movie" class="col-sm-4 option-panel">
-            		<img src="images/top_rated.jpg" class="option-image" />
-                	<h1 class="white-text display-4 option-type"><i class="fa fa-star" aria-hidden="true"></i> TOP RATED</h1> 
-            	</div>
-            	<div focusable data-petitiontype="popular" data-videotype="movie" class="col-sm-4 option-panel">
-            		<img src="images/popular.jpg" class="option-image" />
-                	<h1 class="white-text display-4 option-type"><i class="fa fa-fire" aria-hidden="true"></i> POPULAR</h1> 
-            	</div>
-            	<div focusable data-petitiontype="now_playing" data-videotype="movie" class="col-sm-4 option-panel">
-            		<img src="images/now_playing.jpg" class="option-image" />
-                	<h1 class="white-text display-4 option-type"><i class="fa fa-play-circle-o" aria-hidden="true"></i> NOW PLAYING</h1> 
-            	</div>
-            	<div focusable data-petitiontype="popular" data-videotype="tv" class="col-sm-4 option-panel">
-            		<img src="images/latest.jpg" class="option-image" />
-                	<h1 class="white-text display-4 option-type"><i class="fa fa-clock-o" aria-hidden="true"></i> POPULAR TV</h1> 
-            	</div>  
-            	<div focusable data-petitiontype="top_rated" data-videotype="tv" class="col-sm-4 option-panel">
-            		<img src="images/upcoming.jpg" class="option-image" />
-                	<h1 class="white-text display-4 option-type"><i class="fa fa-film" aria-hidden="true"></i> TOP TV</h1> 
-            	</div>            	            	            	            	     	            	            	
-            </div> 
-        </div> 	
-	</div>
-
-    <div class="container-fluid menu-panel">        
-        <div><img src="" class="background-photo"></div>
-        <div class="row fixed-padding">
-            <div class="col-sm-4 text-center">
-                <h1 class="white-text display-3">CINEM <i class="fa fa-film" aria-hidden="true"></i> APP</h1> 
-            </div>
-            <div class="col-sm-4 text-right"></div>
-			<div class="col-sm-4 text-center">
-                <h1 id="petition-type" class="white-text display-3"></h1> 
-            </div>                        
-        </div>
-        <div id="creation-list" class="row">
-        </div>
-     	<div class="row">
-            <div class="col-sm-12 text-center topper">
-                <h1 class="white-text display-4 title-name"></h1> 
-                <h3 class="yellow-text title-rating topper-2"></h3>
-            </div>
-        </div>           
-    </div>
-
-    <div class="container-fluid info-panel"></div>
-    
-    <div class="trailer-panel">
-		<img id="icon-player" src="images/play.png">
-        <video id="trailer"
-            src="http://content.bitsontherun.com/videos/q1fx20VZ-52qL9xLP.mp4" 	preload="auto">
-    	</video>
-
-    </div>
-
-	<div class="instructions-panel">
-		<h1 class="white-text display-3 instructions-title">Instructions info</h1>
-		<img class="instructions-image" src="images/instructions.png"> 
-	    <h1 class="white-text display-3 time"></h1> 
-	    <h4 class="white-text display-5 date"></h4> 
-	</div>
-
-	<div class="container-fluid images-panel"></div>	
+	<head>
+	    <meta charset="utf-8" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	    <meta name="description" content="Tizen TV Recommendation APP"/>
+	    <meta name="author" content="Alex Cordon and David Gimeno"/>
+	
+	    <title>CINEMUP</title>
+	
+	    <!-- Bootstrap core CSS -->
+	    <link href="css/bootstrap.min.css" rel="stylesheet">
+	    <!-- Icons from font awesome CSS -->
+	    <link href="css/font-awesome.min.css" rel="stylesheet">
+	    <!-- Slick CSS (carousel effect) -->
+	    <link rel="stylesheet" type="text/css" href="css/slick.css"/>
+	    <!-- Personailzed CSS -->
+	    <link href="css/personalized.css" rel="stylesheet">
+	    
+	</head>
+	
+	<body>
 		
-    <!-- Menu template -->
-	<script id="menu-template" type="text/x-handlebars-template">
+		<audio id="audio-click" src="sounds/click.wav" autostart="false" ></audio>
+		<audio id="audio-enter" src="sounds/enter.mp3" autostart="false" ></audio>
+		<audio id="audio-back" src="sounds/back.mp3" autostart="false" ></audio>
+	
+		<div class="container-fluid selector-panel">
+	        <div><img src="" class="background-image"></div>
+	        <div class="row fixed-padding">
+	            <div class="col-sm-4 text-center">
+	                <h1 class="white-text display-3">CINEM <i class="fa fa-film" aria-hidden="true"></i> APP</h1> 
+	            </div>
+	             <div class="col-sm-8 text-center"></div>
+	        </div>
+	        <div class="row">
+	            <div class="options">
+	            	<div focusable data-focusable-initial-focus="true" data-petitiontype="upcoming" data-videotype="movie" class="col-sm-4 option-panel">
+	            		<img src="images/upcoming.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-compass" aria-hidden="true"></i> UPCOMING</h1> 
+	            	</div>
+	            	<div focusable data-petitiontype="top_rated" data-videotype="movie" class="col-sm-4 option-panel">
+	            		<img src="images/top_rated.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-star" aria-hidden="true"></i> TOP RATED</h1> 
+	            	</div>
+	            	<div focusable data-petitiontype="popular" data-videotype="movie" class="col-sm-4 option-panel">
+	            		<img src="images/popular.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-fire" aria-hidden="true"></i> POPULAR</h1> 
+	            	</div>
+	            	<div focusable data-petitiontype="now_playing" data-videotype="movie" class="col-sm-4 option-panel">
+	            		<img src="images/now_playing.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-play-circle-o" aria-hidden="true"></i> NOW PLAYING</h1> 
+	            	</div>
+	            	<div focusable data-petitiontype="popular" data-videotype="tv" class="col-sm-4 option-panel">
+	            		<img src="images/latest.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-clock-o" aria-hidden="true"></i> POPULAR TV</h1> 
+	            	</div>  
+	            	<div focusable data-petitiontype="top_rated" data-videotype="tv" class="col-sm-4 option-panel">
+	            		<img src="images/upcoming.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-film" aria-hidden="true"></i> TOP TV</h1> 
+	            	</div>            	            	            	            	     	            	            	
+	            </div> 
+	        </div> 	
+		</div>
+	
+	    <div class="container-fluid menu-panel">        
+	        <div><img src="" class="background-photo"></div>
+	        <div class="row fixed-padding">
+	            <div class="col-sm-4 text-center">
+	                <h1 class="white-text display-3">CINEM <i class="fa fa-film" aria-hidden="true"></i> APP</h1> 
+	            </div>
+	            <div class="col-sm-4 text-right"></div>
+				<div class="col-sm-4 text-center">
+	                <h1 id="petition-type" class="white-text display-3"></h1> 
+	            </div>                        
+	        </div>
+	        <div id="creation-list" class="row">
+	        </div>
+	     	<div class="row">
+	            <div class="col-sm-12 text-center topper">
+	                <h1 class="white-text display-4 title-name"></h1> 
+	                <h3 class="yellow-text title-rating topper-2"></h3>
+	            </div>
+	        </div>           
+	    </div>
+	
+	    <div class="container-fluid info-panel"></div>
+	    
+	    <div class="trailer-panel">
+			<img id="icon-player" src="images/play.png">
+	        <video id="trailer"
+	            src="videos/rogueone.mp4" preload="auto">
+	    	</video>
+	
+	    </div>
+	
+		<div class="instructions-panel">
+			<h1 class="white-text display-3 instructions-title">Instructions info</h1>
+			<img class="instructions-image" src="images/instructions.png"> 
+		    <h1 class="white-text display-3 time"></h1> 
+		    <h4 class="white-text display-5 date"></h4> 
+		</div>
+	
+		<div class="container-fluid images-panel"></div>	
+			
+	    <!-- Menu template -->
+		<script id="menu-template" type="text/x-handlebars-template">
 		{{#each results}}
 			<div >
 				<img class="focus" 
@@ -120,9 +124,9 @@
 			</div>
 		{{/each}}
 	</script>
-
-	<!-- Description template -->
-    <script id="info-template" type="text/x-handlebars-template">
+	
+		<!-- Description template -->
+	    <script id="info-template" type="text/x-handlebars-template">
         <div id="image-panel contents">
             <img src="https://image.tmdb.org/t/p/w300{{poster_path}}" class="poster-image">
             <div id="gradient">
@@ -131,7 +135,7 @@
         <div class="add-padding-top information-film">
             <div class="clearfix put-front">
                 <h1 class="display-3 white-text add-padding-basic float-xs-left film-title">{{#if title}} {{title}} {{else if name}} {{name}} {{else}} Not avaiable{{/if}}</h1>
-                <h1 class="add-padding-basic float-xs-right yellow-text bottom-placed"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> {{vote_average}}</span>
+                <h1 id="punctuation-description" class="add-padding-basic float-xs-right yellow-text bottom-placed"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> {{vote_average}}</span>
                 </h1>
             </div>
             <div class="clearfix put-front">
@@ -251,9 +255,9 @@
             </div>
         </div>
     </script>
-
-	<!-- Images template -->
-	<script id="images-template" type="text/x-handlebars-template">
+	
+		<!-- Images template -->
+		<script id="images-template" type="text/x-handlebars-template">
 		<div class="row">
 		{{#each this}}
 			<div class="alignment-images">
@@ -266,21 +270,25 @@
 				<h1 class="white-text text-left">Showing {{this.length}} results</h1>
 			</div>
 			<div class="col-sm-6">
-				<h1 class="white-text text-right">Press <i class="fa fa-info-circle" aria-hidden="true"></i> to go back</h1>
+				<h1 class="white-text text-right">Press <i class="fa fa-undo" aria-hidden="true"></i> to go back</h1>
 			</div>
 		</div>		
 		
 		</div>
 	</script>
-
-    <!-- Script imports -->
-    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src="js/handlebars-v4.0.5.js"></script>
-    <script type="text/javascript" src="js/slick.min.js"></script>
-    <script type="text/javascript" src="js/caph-jquery.min.js"></script>
-    <script type="text/javascript" src="js/functionalities.js"></script>
-    <script type="text/javascript" src="js/TVKeyValue.js"></script>
-
-</body>
+	
+	    <!-- jQuery js -->
+	    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+	    <!-- Handlebars js: templates html -->
+	    <script type="text/javascript" src="js/handlebars-v4.0.5.js"></script>
+	    <!-- Slick js: carousel functionality -->
+	    <script type="text/javascript" src="js/slick.min.js"></script>
+	    <!-- Caph js: navigation functionality -->
+	    <script type="text/javascript" src="js/caph-jquery.min.js"></script>
+	    <!-- Personalized js -->
+	    <script type="text/javascript" src="js/functionalities.js"></script>
+	    <script type="text/javascript" src="js/TVKeyValue.js"></script>
+	
+	</body>
 
 </html>

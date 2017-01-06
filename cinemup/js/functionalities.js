@@ -18,13 +18,14 @@ var isShowingInstructions = false;
 var youtube_id;
 var typeVideo;
 var JSONresponse;
+var click_audio;
 
 window.onload = function() {
 
 	//Update the time and date every UPDATE_TIME_CLOCK ms
 	updateClock();
 	setInterval(updateClock, UPDATE_TIME_CLOCK);
-
+	
 	//Hiding all unnecessary panels
 	$(".menu-panel").hide();	
 	$(".info-panel").hide();
@@ -87,7 +88,12 @@ function keyController(){
 			isShowingInstructions = false;
 		}
 		
+		if(e.keyCode != TvKeyCode.KEY_ENTER && e.keyCode != TvKeyCode.KEY_RED){
+			playSound(1);
+		}
+		
     	if (e.keyCode == TvKeyCode.KEY_ENTER) {
+    		playSound(2);
     		console.log("info - key ENTER pressed");
     		if(showingFilms){
     			changeWindow(3);
@@ -115,8 +121,10 @@ function keyController(){
     			}
     		}
     	}
+    	    	
     	//TODO: Change RED KEY for BACK button, but avoid closing app behaviour
     	if (e.keyCode == TvKeyCode.KEY_RED) { 
+    		playSound(3);
     		console.log("info - key INFO pressed");
     		if (showingFilms) { changeWindow(2); }
     		if (showingDescription) { changeWindow(4); }
@@ -211,11 +219,9 @@ function changeWindow(option){
 			isPlayingTrailer = false;
 		break;
 		case 2:
-			$('.film-list').slick('unslick');	
-			initializeSlick();
-			updateFocus(true);
 			$(".menu-panel").fadeOut(FADE_TIME);
 			$(".selector-panel").fadeIn(FADE_TIME);
+			$('.film-list').slick('unslick');	
 			showingDescription = false;
 			showingFilms = false;
 			showingTrailer = false;
@@ -389,7 +395,14 @@ function getJSONDescription(json){
 	
 	//Fill the url link on the video tag
 	youtube_id = JSONresponse.videos.results[0].key;
-
+	
+	//Modify stars printed in description accordingly
+	var rating = JSONresponse.vote_average;
+	var starsFilled = Math.floor(rating * 5 / 10);
+	var starsSemiFilled = ((rating*5/10)-starsFilled) >= 0.5 ? 1 : 0; 
+	var starsEmpty = 5 - starsFilled - starsSemiFilled;
+	var starsRating = '<i class="fa fa-star" aria-hidden="true"></i>'.repeat(starsFilled) + '<i class="fa fa-star-half-o" aria-hidden="true"></i>'.repeat(starsSemiFilled) + '<i class="fa fa-star-o" aria-hidden="true"></i>'.repeat(starsEmpty) + "  " + rating;
+	$("#punctuation-description").html(starsRating);
 }
 
 function getHttpRequestImages(theUrl, callback) {
@@ -463,6 +476,26 @@ function doAnimationPlayer(type){
 	$("#icon-player").attr("src", image_path);
 	$("#icon-player").show();
 	$("#icon-player").fadeOut(FADE_TIME);
+	
+}
+
+function playSound(type){
+	var temp;
+	switch(type){
+		case 1: 
+			//Load and get audio click
+			temp = document.getElementById("audio-click");
+			temp.play();
+			break;
+		case 2:
+			temp = document.getElementById("audio-enter");
+			temp.play();
+			break;
+		case 3:
+			temp = document.getElementById("audio-back");
+			temp.play();
+			break;
+	}
 	
 }
 
