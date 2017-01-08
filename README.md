@@ -21,6 +21,6 @@ It will allow you to check the most popular movies and tv series.
 
 ### Screenshots ###
 
-![Main menu](http://imgur.com/yUpwhvM)
-![Movie selection](http://imgur.com/hPgg8kP)
-![Movie description](http://imgur.com/TyCLxGe)
+![Main menu](http://i.imgur.com/yUpwhvM.png)
+![Movie selection](http://i.imgur.com/hPgg8kP.png)
+![Movie description](http://i.imgur.com/TyCLxGe.png)
