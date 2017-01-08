@@ -95,7 +95,7 @@ body{
 
 .fixed-padding{
 	padding-top: 7em;
-	padding-bottom: 7em;
+	padding-bottom: 5em;
 }
 
 .bottom{
@@ -104,11 +104,15 @@ body{
 }
 
 .topper{
-	padding-top: 2em;
+	padding-top: 3.5em;
 }
 
 .topper-2{
 	padding-top: 0.5em;
+}
+
+.title-name{
+	font-weight: 500;
 }
 
 .title-name,.title-rating{
@@ -175,19 +179,11 @@ body{
 .option-type{
 	position: absolute;
 	text-align: center;
-	top: 45%;
+	top: 22%;
 	left: 0;
 	right: 0;
 	opacity: 0.80;
-	font-weight: bold;
-	text-shadow:
-    2px 2px 0 #000,
-    /* Simulated effect for Firefox and Opera
-       and nice enhancement for WebKit */
-   -1px -1px 0 #000,  
-    1px -1px 0 #000,
-   -1px  1px 0 #000,
-    1px  1px 0 #000;
+	font-weight: 500;
 }
 
 .option-image{
@@ -311,4 +307,28 @@ video#trailer {
 	left: 50%;
 	position:absolute;
 	z-index: 1;
+}
+
+.title-cinemup {
+	font-weight: bold;
+	padding-left: 10px;
+    margin: 0;
+    display: inline;
+    vertical-align: middle;
+}
+.logoandtext img {
+    vertical-align: middle;
+}
+
+.special-icon{
+	font-size: 130px;
+	padding-bottom: 12px;
+}
+
+.info-text{
+	text-align: right;
+	padding-right: 50px;
+	font-weight: 500;
+	font-size: 40px;
+	padding-top: 22px;
 }

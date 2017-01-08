@@ -1,4 +1,3 @@
-
 //Constant parameters
 var LANGUAGE_RESPONSE = "en-US";					//Language of the received JSON petitions
 var FADE_TIME = 1000;								//Value of transition's fade in miliseconds
@@ -13,6 +12,7 @@ var showingImages = false;
 var isPlayingTrailer = false;
 var isPaused = false;
 var isShowingInstructions = false;
+var showDebug = false;	//When true shows petition events and debug points
 
 //Needed variables
 var youtube_id;
@@ -49,8 +49,8 @@ window.onload = function() {
 	        	});
 	        });	        
 	        controllerProvider.onBlurred(function(event, originalEvent) {
-	        	$(event.currentTarget).children('.option-image').css('opacity', '0.4');
-	        	$(event.currentTarget).children('.option-type').css('opacity', '0.8');
+	        	$(event.currentTarget).children('.option-image').css('opacity', '0.35');
+	        	$(event.currentTarget).children('.option-type').css('opacity', '0.75');
 	        	$(event.currentTarget).children('.option-image')
 	        	.css({
 	        	   'filter'         : 'blur(5px)',
@@ -64,8 +64,10 @@ window.onload = function() {
 	        	var petition = $(event.currentTarget).attr('data-petitiontype');
 	        	typeVideo = $(event.currentTarget).attr('data-videotype');
 	 	 		var fill_info = $(event.currentTarget).children("h1").html();
+	 	 		fill_info = fill_info.replace('<br>','');
+	 	 		fill_info = fill_info.replace(' special-icon','');
 	 	 		$('#petition-type').html(fill_info);
-	 	 		console.log("STARTING HTTP MOVIE MENU...");
+	 	 		if(showDebug) console.log("STARTING HTTP MOVIE MENU...");
 	 	 		getHttpRequestMenu("https://api.themoviedb.org/3/" + typeVideo + "/" + petition + "?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE, getJSONDescription);				
 			});
 	    });
@@ -81,6 +83,10 @@ function keyController(){
 	document.addEventListener('keydown', function (e) {
     	
 		var e = e || e.keyCode;
+				
+		if(e.keyCode != TvKeyCode.KEY_ENTER && e.keyCode != TvKeyCode.KEY_RED && e.keyCode !== 27){
+			playSound(1);
+		}
 		
 		//If the user push any button in when instructions toggled, it will hide automatically
 		if(isShowingInstructions){
@@ -88,34 +94,30 @@ function keyController(){
 			isShowingInstructions = false;
 		}
 		
-		if(e.keyCode != TvKeyCode.KEY_ENTER && e.keyCode != TvKeyCode.KEY_RED){
-			playSound(1);
-		}
-		
     	if (e.keyCode == TvKeyCode.KEY_ENTER) {
     		playSound(2);
-    		console.log("info - key ENTER pressed");
+    		if(showDebug) console.log("info - key ENTER pressed");
     		if(showingFilms){
     			changeWindow(3);
     			var id = $("#show-images").attr('data-id');
     			getHttpRequestImages("https://api.themoviedb.org/3/" + typeVideo + "/" + id + "/images?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE +"&include_image_language=en");
-    			console.log("STARTED HTTP MOVIE IMAGES..."); 			
+    			if(showDebug) console.log("STARTED HTTP MOVIE IMAGES..."); 			
     		}else if(showingDescription){		
     			var focused = $('.active-button').attr('id');   			
     			switch(focused){
     				case 'play-trailer':
-    					console.log('playing trailer...');
+    					if(showDebug) console.log('playing trailer...');
     	    			changeWindow(5);
     					document.getElementById('trailer').play();
     	    			isPlayingTrailer = true;
     	    			doAnimationPlayer(1);
     				break;
     				case 'show-images':
-    					console.log('showing images...');
+    					if(showDebug) console.log('showing images...');
     					changeWindow(7);
     				break;
     				case 'close-window':
-    					console.log('closing...');
+    					if(showDebug) console.log('closing...');
     					changeWindow(4);
     				break;
     			}
@@ -123,9 +125,9 @@ function keyController(){
     	}
     	    	
     	//TODO: Change RED KEY for BACK button, but avoid closing app behaviour
-    	if (e.keyCode == TvKeyCode.KEY_RED) { 
+    	if (e.keyCode == TvKeyCode.KEY_RED || e.keyCode === 27) { 
     		playSound(3);
-    		console.log("info - key INFO pressed");
+    		if(showDebug) console.log("info - key INFO pressed");
     		if (showingFilms) { changeWindow(2); }
     		if (showingDescription) { changeWindow(4); }
     		if(showingImages){ changeWindow(8); }
@@ -135,16 +137,16 @@ function keyController(){
     			isPlayingTrailer = false;
 			} 		
     	}    	
-    	if (e.keyCode == TvKeyCode.KEY_PAUSE) { 
-    		console.log("info - key PAUSE pressed");
+    	if (e.keyCode == TvKeyCode.KEY_PAUSE || e.keyCode === 80) { 
+    		if(showDebug) console.log("info - key PAUSE pressed");
     		if(showingTrailer && isPlayingTrailer && !isPaused){
     			document.getElementById('trailer').pause(); 
     			isPaused = true;
     			doAnimationPlayer(2);
     		}
     	}    	
-    	if (e.keyCode == TvKeyCode.KEY_PLAY) { 
-    		console.log("info - key PLAY pressed");
+    	if (e.keyCode == TvKeyCode.KEY_PLAY || e.keyCode === 32) { 
+    		if(showDebug) console.log("info - key PLAY pressed");
     		if(isPlayingTrailer && isPaused){
     			document.getElementById('trailer').play();
     			isPaused = false;
@@ -156,7 +158,7 @@ function keyController(){
     		}
     	} 	
     	if (e.keyCode == TvKeyCode.KEY_LEFT) { 
-    		console.log("info - key LEFT pressed");
+    		if(showDebug) console.log("info - key LEFT pressed");
     		if(showingFilms){
 				$(".film-list").slick('slickPrev');
 				updateFocus(true);
@@ -166,7 +168,7 @@ function keyController(){
     		}
     	}
     	if (e.keyCode == TvKeyCode.KEY_RIGHT) { 
-    		console.log("info - key RIGHT pressed");
+    		if(showDebug) console.log("info - key RIGHT pressed");
     		if(showingFilms){
 	    		$(".film-list").slick('slickNext');
 	    		updateFocus(true);	
@@ -175,12 +177,13 @@ function keyController(){
     			changeDescriptionFocus(1);
     		}
     	}
-    	if(e.keyCode == TvKeyCode.KEY_INFO){
+    	if(e.keyCode == TvKeyCode.KEY_INFO || e.keyCode === 73){
     		if(!isShowingInstructions){
     			$(".instructions-panel").fadeIn(FADE_TIME);
     			isShowingInstructions = true;;
     		}
     	}
+
     	
 	});
 		
@@ -318,7 +321,7 @@ function updateFocus(hasToUpdateBackground){
 	}
 
 	//Fill info about focus film
-	console.log("STARTING HTTP MOVIE DESCRIPTION...");
+	if(showDebug) console.log("STARTING HTTP MOVIE DESCRIPTION...");
 	var id = $(".active").attr('data-id');
 	getHttpRequestDescription("https://api.themoviedb.org/3/" + typeVideo +"/" + id + "?api_key=" + API_KEY + "&language=" + LANGUAGE_RESPONSE + "&append_to_response=videos", getJSONMenu);
 
@@ -348,8 +351,8 @@ function getJSONMenu(json){
 
 	//Parse response to JSON format
 	JSONresponse = JSON.parse(json);
-	console.log(JSONresponse);
-	console.log("...FINISHED HTTP MENU");
+	if(showDebug) console.log(JSONresponse);
+	if(showDebug) console.log("...FINISHED HTTP MENU");
 	
 	//Compile Handlebars and add to the html
 	var source   = $("#menu-template").html();
@@ -384,8 +387,8 @@ function getJSONDescription(json){
 	
 	//Parse response to JSON format
 	JSONresponse = JSON.parse(json);
-	console.log(JSONresponse);
-	console.log("...FINISHED HTTP MOVIE DESCRIPTION");
+	if(showDebug) console.log(JSONresponse);
+	if(showDebug) console.log("...FINISHED HTTP MOVIE DESCRIPTION");
 
 	//Render description template
 	var source   = $("#info-template").html();
@@ -422,7 +425,7 @@ function getJSONImages(json){
 	
 	//Parse response to JSON format
 	JSONresponse = JSON.parse(json);
-	console.log("...FINISHED HTTP MOVIE IMAGES");
+	if(showDebug) console.log("...FINISHED HTTP MOVIE IMAGES");
 	
 	//Render Images template
 	var source   = $("#images-template").html();
@@ -483,7 +486,6 @@ function playSound(type){
 	var temp;
 	switch(type){
 		case 1: 
-			//Load and get audio click
 			temp = document.getElementById("audio-click");
 			temp.play();
 			break;
@@ -497,12 +499,4 @@ function playSound(type){
 			break;
 	}
 	
-}
-
-//TODO: Check if youtube api works or not and find alternatives
-function initializeVideo(youtube_id){
-	//$('.trailer-panel').empty();
-	//var playerDiv = document.createElement('div');
-	//playerDiv.id = 'player';
-	//$('.trailer-panel').append(playerDiv);
 }
