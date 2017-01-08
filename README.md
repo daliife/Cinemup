@@ -1,29 +1,26 @@
-# README #
+# CINEMUP #
+Created by Alex Cordon & David Gimeno
+Link of the repository [here](https://bitbucket.org/nalx/cinemup/overview)
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### What is Cinemup? ###
+Cinemup is TV recommender App created with IDE TizenStudio.
+It will allow you to check the most popular movies and tv series.
 
-### What is this repository for? ###
+### Features ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Search by diferent type of categories: upcoming, top rated, popular, now playing, popular tv & top tv
+* Relevant data from each film: Synopsis, release dates, valorations,...
+* Trailer previews
+* Poster's page
 
-### How do I get set up? ###
+### Used API's ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* [The movie database](https://www.themoviedb.org/)
+* [Slick carousel](http://kenwheeler.github.io/slick/)
+* [Youtube iframe player](https://developers.google.com/youtube/iframe_api_reference)
 
-### Contribution guidelines ###
+### Screenshots ###
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+![Main menu](http://imgur.com/yUpwhvM)
+![Movie selection](http://imgur.com/hPgg8kP)
+![Movie description](http://imgur.com/TyCLxGe)
