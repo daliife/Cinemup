@@ -1,4 +1,4 @@
-# CINEMUP #
+# CINEMUP 
 Created by Alex Cordon & David Gimeno
 Link of the repository [here](https://bitbucket.org/nalx/cinemup/overview)
 
