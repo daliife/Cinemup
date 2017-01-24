@@ -5,8 +5,8 @@
 * **TV version** - Download [Tizen IDK](https://developer.tizen.org/development/tools/download) and open the folder **cinemup_tv** (right click in project > Run as > Tizen Web Simulator Application).
 
 ## What is Cinemup? ##
-Cinemup is TV recommender App created with IDE TizenStudio.
-It will allow you to check the most popular movies and tv series.
+Cinemup is a TV Recommender App created with IDE TizenStudio.
+It will allow you to check the most popular movies and tv series thanks to [The movie database](https://www.themoviedb.org/).
 
 ## Features ##
 * Search by diferent type of categories: upcoming, top rated, popular, now playing, popular tv & top tv
