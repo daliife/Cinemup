@@ -1,9 +1,8 @@
 # CINEMUP #
-**NOTE: 
 
 ## TV/Web Version ##
-* **Web version** - You can check a web version [Tizen IDK](https://developer.tizen.org/development/tools/download)
-* **TV version** - Download [Tizen IDK](https://developer.tizen.org/development/tools/download) and open this project.
+* **Web version** - You can check the web version [here](https://cinemup.000webhostapp.com/) or downloading the **cinemup_web**. In order to avoid scroll problems it is recommended to set the browser to fullscreen view.
+* **TV version** - Download [Tizen IDK](https://developer.tizen.org/development/tools/download) and open the folder **cinemup_tv** (right click in project > Run as > Tizen Web Simulator Application).
 
 ## What is Cinemup? ##
 Cinemup is TV recommender App created with IDE TizenStudio.
@@ -15,10 +14,13 @@ It will allow you to check the most popular movies and tv series.
 * Trailer previews
 * Poster's page
 
-## Screenshots ##
-![Main menu](http://i.imgur.com/yUpwhvM.png)
-![Movie selection](http://i.imgur.com/hPgg8kP.png)
-![Movie description](http://i.imgur.com/TyCLxGe.png)
+## Instructions ##
+* **UP,DOWN,LEFT,RIGHT Keys** - Move the focus
+* **Enter Key / OK Button** - Select/enter focused element
+* **Esc Key / Red Button** - Go back
+* **I Key / Info Button** - Show button instructions
+* **Spacebar Key / Play Button** - Play/Resume trailer
+* **P Key / Pause Button** - Pause trailer
 
 ## Used API's ##
 * [The movie database](https://www.themoviedb.org/)
@@ -28,3 +30,9 @@ It will allow you to check the most popular movies and tv series.
 ## Authors
 * [Àlex Cordón](mailto:alexcordonvila@gmail.com)
 * [David Gimeno](http://www.davidgimeno.cat)
+
+## Screenshots ##
+![Main menu](http://i.imgur.com/yUpwhvM.png)
+![Movie selection](http://i.imgur.com/hPgg8kP.png)
+![Movie description](http://i.imgur.com/TyCLxGe.png)
+

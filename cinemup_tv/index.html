@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	    <meta name="description" content="Tizen TV Recommendation APP"/>
+	    <meta name="author" content="Alex Cordon and David Gimeno"/>
+	
+	    <title>CINEMUP</title>
+	
+	    <!-- Bootstrap core CSS -->
+	    <link href="css/bootstrap.min.css" rel="stylesheet">
+	    <!-- Icons from font awesome CSS -->
+	    <link href="css/font-awesome.min.css" rel="stylesheet">
+	    <!-- Slick CSS (carousel effect) -->
+	    <link rel="stylesheet" type="text/css" href="css/slick.css"/>
+	    <!-- Personailzed CSS -->
+	    <link href="css/personalized.css" rel="stylesheet">
+	    
+	</head>
+	
+	<body>
+		
+		<audio id="audio-click" src="sounds/click.wav" autostart="false" ></audio>
+		<audio id="audio-enter" src="sounds/enter.mp3" autostart="false" ></audio>
+		<audio id="audio-back" src="sounds/back.mp3" autostart="false" ></audio>
+	
+		<div class="container-fluid selector-panel">
+	        <div><img src="" class="background-image"></div>
+	        <div class="row fixed-padding">
+	            <div class="col-sm-4 text-center logoandtext">
+	            	<img src="images/cinemup_icon.png">
+	                <h1 class="white-text display-3 title-cinemup">CINEMUP</h1> 
+	            </div>
+	             <div class="col-sm-8 text-center">
+	             	<h3 class="info-text white-text">Press <i class="fa fa-info-circle" aria-hidden="true"></i> for instructions</h3>
+	             </div>
+	        </div>
+	        <div class="row">
+	            <div class="options">
+	            	<div focusable data-focusable-initial-focus="true" data-petitiontype="upcoming" data-videotype="movie" class="col-sm-4 option-panel">
+	            		<img src="images/upcoming.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-compass special-icon" aria-hidden="true"></i><br> UPCOMING</h1> 
+	            	</div>
+	            	<div focusable data-petitiontype="top_rated" data-videotype="movie" class="col-sm-4 option-panel">
+	            		<img src="images/top_rated.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-star special-icon" aria-hidden="true"></i><br> TOP RATED</h1> 
+	            	</div>
+	            	<div focusable data-petitiontype="popular" data-videotype="movie" class="col-sm-4 option-panel">
+	            		<img src="images/popular.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-fire special-icon" aria-hidden="true"></i><br> POPULAR</h1> 
+	            	</div>
+	            	<div focusable data-petitiontype="now_playing" data-videotype="movie" class="col-sm-4 option-panel">
+	            		<img src="images/now_playing.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-play-circle-o special-icon" aria-hidden="true"></i><br> NOW PLAYING</h1> 
+	            	</div>
+	            	<div focusable data-petitiontype="popular" data-videotype="tv" class="col-sm-4 option-panel">
+	            		<img src="images/popular_tv.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-clock-o special-icon" aria-hidden="true"></i><br> POPULAR TV</h1> 
+	            	</div>  
+	            	<div focusable data-petitiontype="top_rated" data-videotype="tv" class="col-sm-4 option-panel">
+	            		<img src="images/top_tv.jpg" class="option-image" />
+	                	<h1 class="white-text display-4 option-type"><i class="fa fa-television special-icon" aria-hidden="true"></i><br> TOP TV</h1> 
+	            	</div>            	            	            	            	     	            	            	
+	            </div> 
+	        </div> 	
+		</div>
+	
+	    <div class="container-fluid menu-panel">        
+	        <div><img src="" class="background-photo"></div>
+	        <div class="row fixed-padding">
+	            <div class="col-sm-4 text-center logoandtext">
+	            	<img src="images/cinemup_icon.png">
+	                <h1 class="white-text display-3 title-cinemup">CINEMUP</h1> 
+	            </div>
+	            <div class="col-sm-4 text-right"></div>
+				<div class="col-sm-4 text-center">
+	                <h1 id="petition-type" class="white-text display-3" style="font-weight:500;"></h1> 
+	            </div>                        
+	        </div>
+	        <div id="creation-list" class="row">
+	        </div>
+	     	<div class="row">
+	            <div class="col-sm-12 text-center topper">
+	                <h1 class="white-text display-4 title-name"></h1> 
+	                <h3 class="yellow-text title-rating topper-2"></h3>
+	            </div>
+	        </div>           
+	    </div>
+	
+	    <div class="container-fluid info-panel"></div>
+	    
+	    <div class="trailer-panel">
+			<img id="icon-player" src="images/play.png">
+	        <video id="trailer"
+	            src="videos/rogueone.mp4" preload="auto">
+	    	</video>
+	
+	    </div>
+	
+		<div class="instructions-panel">
+			<h1 class="white-text display-3 instructions-title">Instructions info</h1>
+			<img class="instructions-image" src="images/instructions.png"> 
+		    <h1 class="white-text display-3 time"></h1> 
+		    <h4 class="white-text display-5 date"></h4> 
+		</div>
+	
+		<div class="container-fluid images-panel"></div>	
+			
+	    <!-- Menu template -->
+		<script id="menu-template" type="text/x-handlebars-template">
+		{{#each results}}
+			<div >
+				<img class="focus" 
+					data-title="{{#if title}}{{title}}{{else}}{{name}}{{/if}}" 
+					data-id="{{id}}"
+					data-release="{{release_date}}" 
+					data-overview="{{overview}}"
+					data-vote="{{vote_average}}" 
+					data-popularity="{{popularity}}"
+					data-backgroundimage="https://image.tmdb.org/t/p/w500{{backdrop_path}}" 
+					{{#if poster_path}}
+						src="https://image.tmdb.org/t/p/w300{{poster_path}}">
+					{{else}}
+						src="images/imagenotfound.png">
+					{{/if}}
+					
+			</div>
+		{{/each}}
+	</script>
+	
+		<!-- Description template -->
+	    <script id="info-template" type="text/x-handlebars-template">
+        <div id="image-panel contents">
+            <img src="https://image.tmdb.org/t/p/w300{{poster_path}}" class="poster-image">
+            <div id="gradient">
+            </div>
+        </div>    
+        <div class="add-padding-top information-film">
+            <div class="clearfix put-front">
+                <h1 class="display-3 white-text add-padding-basic float-xs-left film-title">{{#if title}} {{title}} {{else if name}} {{name}} {{else}} Not avaiable{{/if}}</h1>
+                <h1 id="punctuation-description" class="add-padding-basic float-xs-right yellow-text bottom-placed"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> {{vote_average}}</span>
+                </h1>
+            </div>
+            <div class="clearfix put-front">
+                <h1 class="add-padding-basic float-xs-left">{{#each genres}}<span class="tag tag-pill tag-info black-text">
+                	{{name}}</span> {{/each}}</h1>
+                <h1 class="float-xs-right white-text bottom-placed">{{vote_count}} votes</h1>
+            </div>
+            <div class="col-sm-12 clearfix put-front add-padding-top-2">
+	            <h3 class="white-text display-5">Plot</h3>
+	            <p id="plot-info" class="white-text plot add-padding-basic">{{overview}}</p>
+	        </div>
+            <div class="col-sm-12 clearfix put-front add-padding-top-2">
+	            <h3 class="white-text display-5">Information</h3>
+	            <div class="col-sm-6">
+	                <table class="table table-responsive white-text add-padding-basic">
+	                    <tbody>
+							{{#if original_title}}
+	                        <tr>
+	                            <td class="less-opacity">Original Title</td>
+	                            <td>{{original_title}}</td>
+	                        </tr>
+							{{/if}}
+							{{#if original_name}}
+	                        <tr>
+	                            <td class="less-opacity">Original Title</td>
+	                            <td>{{original_name}}</td>
+	                        </tr>
+							{{/if}}
+							{{#if release_date}}
+	                        <tr>
+	                            <td class="less-opacity">Release date</td>
+	                            <td> {{release_date}}</td>
+	                        </tr>
+							{{/if}}
+							{{#if number_of_episodes}} 
+	                        <tr>
+	                            <td class="less-opacity">No. of Episodes</td>
+	                            <td>{{number_of_episodes}} episodes</td>
+	                        </tr>
+							{{/if}}
+							{{#if number_of_seasons}} 
+	                        <tr>
+	                            <td class="less-opacity">No. of Seasons</td>
+	                            <td>{{number_of_seasons}} seasons</td>
+	                        </tr>
+							{{/if}}
+							{{#if first_air_date}}
+	                        <tr>
+	                            <td class="less-opacity">First Air Date</td>
+	                            <td> {{first_air_date}}</td>
+	                        </tr>
+							{{/if}}
+							{{#if last_air_date}}
+	                        <tr>
+	                            <td class="less-opacity">Last Air Date</td>
+	                            <td> {{last_air_date}}</td>
+	                        </tr>
+							{{/if}}
+
+							{{#if runtime}} 
+	                        <tr>
+	                            <td class="less-opacity">Runtime</td>
+	                            <td>{{runtime}} minutes</td>
+	                        </tr>
+							{{/if}}
+							{{#if original_language}} 
+	                        <tr>
+	                            <td class="less-opacity">Language</td>
+	                            <td>{{original_language}}</td>
+	                        </tr>
+							{{/if}}
+	                    </tbody>
+	                </table>
+	            </div>
+	            <div class="col-sm-6">
+	                <table class="table table-responsive white-text add-padding-basic">
+	                    <tbody>
+	                        <tr>
+	                            <td class="less-opacity">Popularity</td>
+	                            <td>{{#if popularity}} {{popularity}}%{{else}} Not avaiable{{/if}}</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="less-opacity">Webpage</td>
+	                            <td>{{#if homepage}} {{homepage}}{{else}} Not avaiable{{/if}}</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="less-opacity">Status</td>
+	                            <td>{{#if status}} {{status}} {{else}} Not avaiable{{/if}}</td>
+	                        </tr>
+	                        <tr>
+	                            <td class="less-opacity">Budget</td>
+	                            <td>
+	                            {{#if budget}} {{budget}}$ {{else}} Not avaiable{{/if}}
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <td class="less-opacity">Revenues</td>
+	                            <td>
+	                            {{#if revenue}} {{revenue}}$ {{else}} Not avaiable{{/if}}
+	                            </td>
+	                        </tr>
+
+	                    </tbody>
+	                </table>
+	            </div>   
+            </div>
+             <div id="buttons-description" class="col-xs-12 put-front add-padding-top-2">
+                <div class="col-xs-4">
+                    <button type="button" id="play-trailer" class="btn btn-default btn-outline btn-lg active-button btn-block add-space"><i class="fa fa-play" aria-hidden="true"></i> Play Trailer</button>
+                </div>
+                <div class="col-xs-4">
+                    <button type="button" id="show-images" data-id="{{id}}" class="btn btn-default btn-outline btn-lg btn-block add-space"><i class="fa fa-picture-o" aria-hidden="true"></i> Show Images</button>
+                </div>
+                <div class="col-xs-4">
+                    <button type="button" id="close-window" class="btn btn-default btn-outline btn-lg btn-block add-space"><i class="fa fa-times" aria-hidden="true"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </script>
+	
+		<!-- Images template -->
+		<script id="images-template" type="text/x-handlebars-template">
+		<div class="row">
+		{{#each this}}
+			<div class="alignment-images">
+				<img class="poster-photo" 
+					src="https://image.tmdb.org/t/p/w300{{file_path}}">
+			</div>
+		{{/each}}
+		<div class="col-sm-12 add-padding-basic-2">
+			<div class="col-sm-6">
+				<h1 class="white-text text-left">Showing {{this.length}} results</h1>
+			</div>
+			<div class="col-sm-6">
+				<h1 class="white-text text-right">Press <i class="fa fa-undo" aria-hidden="true"></i> to go back</h1>
+			</div>
+		</div>		
+		
+		</div>
+	</script>
+	
+	    <!-- jQuery js -->
+	    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+	    <!-- Handlebars js: templates html -->
+	    <script type="text/javascript" src="js/handlebars-v4.0.5.js"></script>
+	    <!-- Slick js: carousel functionality -->
+	    <script type="text/javascript" src="js/slick.min.js"></script>
+	    <!-- Caph js: navigation functionality -->
+	    <script type="text/javascript" src="js/caph-jquery.min.js"></script>
+	    <!-- Personalized js -->
+	    <script type="text/javascript" src="js/functionalities.js"></script>
+	    <script type="text/javascript" src="js/TVKeyValue.js"></script>
+	
+	</body>
+
+</html>
