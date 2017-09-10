@@ -46,7 +46,7 @@ body{
 
 .add-space{
 	padding: 25px;
-	font-size: 25px;
+	font-size: 30px;
 }
 
 .clearfix{
@@ -98,8 +98,8 @@ body{
 }
 
 .fixed-padding{
-	padding-top: 7em;
-	padding-bottom: 5em;
+	padding-top: 5em;
+	padding-bottom: 7em;
 }
 
 .bottom{
@@ -196,7 +196,9 @@ body{
 	text-align: center;
 	left: 0;
 	right: 0;
-	opacity: 0.4;
+	opacity: 0.3;
+	border-radius: 10px;
+	border: 15px solid rgb(22,22,22);;
 	-webkit-filter: blur(5px);
 	filter: blur(5px);
 }
@@ -238,34 +240,34 @@ body{
 	width: 1920px;
 	height: 1080px;
 	top: 0;
-	background-color: rgba(0,0,0,0.75);	
+	background-color: rgba(0,0,0,0.85);	
 	z-index:5;
 }
 
 .instructions-title{
 	position:absolute;
-	top: 14%;
-	left: 27%;
+	top: 8%;
+	left: 10%;
 	font-size: 5em	
 }
 
 .instructions-image{
 	position:absolute;
-	top: 14%;
+	top: 2%;
 	left: 19%;
 	width: 80%;	
 }
 
 .date{
 	position:absolute;
-	bottom: 6%;
+	bottom: 10%;
 	left: 68px;	
 }
 
 .time{
 	position:absolute;
 	left: 60px;
-	bottom: 10%;
+	bottom: 15%;
 }
 
 video#trailer { 

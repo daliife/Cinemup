@@ -1,12 +1,12 @@
 # CINEMUP #
 
-## TV/Web Version ##
-* **Web version** - You can check the web version [here](https://cinemup.000webhostapp.com/) or downloading the **cinemup_web**. In order to avoid scroll problems it is recommended to set the browser to fullscreen view.
-* **TV version** - Download [Tizen IDK](https://developer.tizen.org/development/tools/download) and open the folder **cinemup_tv** (right click in project > Run as > Tizen Web Simulator Application).
-
 ## What is Cinemup? ##
 Cinemup is a TV Recommender App created with IDE TizenStudio.
 It will allow you to check the most popular movies and tv series thanks to [The movie database](https://www.themoviedb.org/).
+
+## TV/Web Version ##
+* **Web version** - You can check the web version [here](https://cinemup.000webhostapp.com/) or downloading the **cinemup_web**. In order to avoid scroll problems it is recommended to set the browser to fullscreen view. (warning: because the project is planned to be used on TV the web is not responsive)
+* **TV version** - Download [Tizen IDK](https://developer.tizen.org/development/tools/download) and open the folder **cinemup_tv** (right click in *project > Run as > Tizen Web Simulator Application*).
 
 ## Features ##
 * Search by diferent type of categories: upcoming, top rated, popular, now playing, popular tv & top tv

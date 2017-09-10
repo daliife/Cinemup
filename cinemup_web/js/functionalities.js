@@ -62,6 +62,7 @@ window.onload = function() {
 	        	});
 	        });	        
 	        controllerProvider.onSelected(function(event, originalEvent){
+	        	playSound(2);
 	        	var petition = $(event.currentTarget).attr('data-petitiontype');
 	        	typeVideo = $(event.currentTarget).attr('data-videotype');
 	 	 		var fill_info = $(event.currentTarget).children("h1").html();
@@ -86,7 +87,9 @@ function keyController(){
 		var e = e || e.keyCode;
 				
 		if(e.keyCode != TvKeyCode.KEY_ENTER && e.keyCode != TvKeyCode.KEY_RED && e.keyCode !== 27){
-			playSound(1);
+			if( e.keyCode == TvKeyCode.KEY_LEFT || e.keyCode == TvKeyCode.KEY_RIGHT || e.keyCode == TvKeyCode.KEY_UP || e.keyCode == TvKeyCode.KEY_DOWN || e.keyCode == "37" || e.keyCode == "38" || e.keyCode == "39" || e.keyCode == "40"){
+				playSound(1);	
+			}			
 		}
 		
 		//If the user push any button in when instructions toggled, it will hide automatically
@@ -210,6 +213,7 @@ function changeDescriptionFocus(direction){
 		}
 		break;
 	}
+
 }
 
 function changeWindow(option){
@@ -522,6 +526,7 @@ function mountYoubeVideo(id_youtube){
             'onStateChange': onPlayerStateChange*/
           }
     });
+
 }
 
 function stopVideo() {
